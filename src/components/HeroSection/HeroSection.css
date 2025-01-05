@@ -1,12 +1,13 @@
 /* Hero.css */
 .hero-container {
-    position: relative;
+    position: fixed;
     width: 100dvw;
     height: 100vh;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 .background-video {

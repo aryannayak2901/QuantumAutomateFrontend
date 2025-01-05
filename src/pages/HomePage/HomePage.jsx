@@ -1,22 +1,31 @@
-import React from 'react'
-import { HeaderSection, HeroSection, FeatureSection, VerticalTimeLineSection } from '../../components'
+import React from "react";
+import {
+  HeaderSection,
+  HeroSection,
+  FeatureSection,
+  VerticalTimeLineSection,
+} from "../../components";
+import './HomePage.css';
 
 const HomePage = () => {
-    return (
-        <div>
-            {/* // <div>HomePage</div>
+  return (
+    <div>
+      {/* // <div>HomePage</div>
             // Header */}
-            <HeaderSection />
-            <HeroSection />
-            <FeatureSection />
-            <VerticalTimeLineSection />
-            {/* // Hero Section
+      <HeaderSection />
+
+      {/* // Hero Section
             // Features Section
             // Workflow Timeline
             // Call To Action (CTA) Section
             // Footer */}
-        </div>
-    )
-}
+      <div className="parallax-container">
+        <HeroSection />
+        <FeatureSection />
+        <VerticalTimeLineSection />
+      </div>
+    </div>
+  );
+};
 
-export default HomePage
+export default HomePage;

@@ -1,0 +1,10 @@
+.parallax-container {
+    position: relative;
+    height: 300dvh; /* Height of the entire content (3 times the viewport height) */
+}
+
+/* br {
+    margin: 0;
+    padding: 0;
+    line-height: normal;
+} */

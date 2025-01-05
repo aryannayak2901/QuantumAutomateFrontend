@@ -10,35 +10,35 @@ const VerticalTimeLineSection = () => {
     ];
 
     return (
-        <section class="timeline">
-            <div class="container">
-                <div class="timeline-item" data-aos="fade-right">
-                    <div class="timeline-img"></div>
-                    <div class="timeline-content">
+        <section className="timeline">
+            <div className="container">
+                <div className="timeline-item" data-aos="fade-right">
+                    <div className="timeline-img"></div>
+                    <div className="timeline-content">
                         <h2>Founding</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-left">
-                    <div class="timeline-img"></div>
-                    <div class="timeline-content">
+                <div className="timeline-item" data-aos="fade-left">
+                    <div className="timeline-img"></div>
+                    <div className="timeline-content">
                         <h2>Growth Expansion</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-right">
-                    <div class="timeline-img"></div>
-                    <div class="timeline-content">
+                <div className="timeline-item" data-aos="fade-right">
+                    <div className="timeline-img"></div>
+                    <div className="timeline-content">
                         <h2>Major Achievements</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                     </div>
                 </div>
 
-                <div class="timeline-item" data-aos="fade-left">
-                    <div class="timeline-img"></div>
-                    <div class="timeline-content">
+                <div className="timeline-item" data-aos="fade-left">
+                    <div className="timeline-img"></div>
+                    <div className="timeline-content">
                         <h2>Recent Milestones</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                     </div>
