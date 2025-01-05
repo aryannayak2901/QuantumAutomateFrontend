@@ -1,0 +1,7 @@
+/* variables.css */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --font-family: 'Roboto', sans-serif;
+    --spacing-unit: 8px;
+}
