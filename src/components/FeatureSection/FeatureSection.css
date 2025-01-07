@@ -1,10 +1,11 @@
 /* Features.css */
 .features-section {
     padding: 60px 20px;
+    height: 100dvh;
     background-color: #f9f9f9;
     text-align: center;
     position: relative;
-    top: 50%;
+    top: 40%;
     z-index: 2;
     border-radius: 10% 10% 0 0;
     border-bottom: 1px solid black;
@@ -61,4 +62,11 @@
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+@media (max-width: 768px) {
+    /* Styles for devices with a width of 768px or smaller */
+    .features-section {
+        border-radius: 3% 3% 0 0;
+    }
 }

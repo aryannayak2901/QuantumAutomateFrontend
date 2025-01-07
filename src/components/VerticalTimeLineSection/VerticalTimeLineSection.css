@@ -1,11 +1,12 @@
 
 section.timeline {
     position: relative;
-    top: 50%;
+    top: 40%;
     z-index: 2;
     padding: 60px 20px;
     background-color: #f9f9f9;
     padding: 10dvh 5dvw;
+    height: 100dvh;
 }
 
 .timeline::before {

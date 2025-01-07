@@ -4,6 +4,7 @@ import {
   HeroSection,
   FeatureSection,
   VerticalTimeLineSection,
+  FooterSection
 } from "../../components";
 import './HomePage.css';
 
@@ -23,7 +24,9 @@ const HomePage = () => {
         <HeroSection />
         <FeatureSection />
         <VerticalTimeLineSection />
+        <FooterSection />
       </div>
+      
     </div>
   );
 };

@@ -4,6 +4,8 @@ import FeatureSection from './FeatureSection/FeatureSection';
 import GetStartedButton from "./Buttons/GetStartedButton/GetStartedButton";
 import LearnMoreButton from "./Buttons/LearnMoreButton/LearnMoreButton";
 import VerticalTimeLineSection from "./VerticalTimeLineSection/VerticalTimeLineSection";
+import CallToActionSection from "./CallToActionSection/CallToActionSection";
+import FooterSection from "./FooterSection/FooterSection";
 
 export {
     HeaderSection,
@@ -11,5 +13,7 @@ export {
     FeatureSection,
     GetStartedButton,
     LearnMoreButton,
-    VerticalTimeLineSection
+    VerticalTimeLineSection,
+    CallToActionSection,
+    FooterSection
 }

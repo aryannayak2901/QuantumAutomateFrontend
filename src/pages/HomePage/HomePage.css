@@ -1,6 +1,6 @@
 .parallax-container {
     position: relative;
-    height: 300dvh; /* Height of the entire content (3 times the viewport height) */
+    height: 350dvh; /* Height of the entire content (3 times the viewport height) */
 }
 
 /* br {
