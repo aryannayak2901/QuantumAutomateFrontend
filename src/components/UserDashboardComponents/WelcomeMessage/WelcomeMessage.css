@@ -1,0 +1,8 @@
+.welcome-message-container {
+    width: 90%;
+    background-color: rgb(164, 141, 141);
+    display: flex;
+    justify-content: space-between;
+    padding: 3dvh 1dvw;
+    border-radius: 20px;
+}

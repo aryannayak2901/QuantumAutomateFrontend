@@ -1,0 +1,40 @@
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: #5a4040;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Content Grid */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 1024px) {
+    .content-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* Activity Feed and Analytics Chart */
+.activity-feed,
+.analytics-chart {
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.analytics-chart-placeholder {
+    height: 200px;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+}

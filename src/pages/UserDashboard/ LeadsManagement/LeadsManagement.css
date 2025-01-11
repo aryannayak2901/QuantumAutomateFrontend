@@ -1,0 +1,96 @@
+/* General Styles */
+.leads-management {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.leads-management .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.leads-management .header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.leads-management .header .actions {
+    display: flex;
+    gap: 15px;
+}
+
+.leads-management .header .actions .ant-select {
+    width: 200px;
+}
+
+.leads-management .ant-table-wrapper {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ant-table-thead>tr>th {
+    background-color: #f0f2f5;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+}
+
+.ant-table-tbody>tr>td {
+    text-align: center;
+}
+
+/* Status Badges */
+.status-new {
+    color: #1890ff;
+    background-color: #e6f7ff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-contacted {
+    color: #52c41a;
+    background-color: #f6ffed;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-qualified {
+    color: #faad14;
+    background-color: #fff7e6;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-disqualified {
+    color: #f5222d;
+    background-color: #fff1f0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Buttons */
+.ant-btn-link {
+    color: #1890ff;
+    font-size: 14px;
+    padding: 0;
+    border: none;
+}
+
+.ant-btn-link:hover {
+    color: #40a9ff;
+}
