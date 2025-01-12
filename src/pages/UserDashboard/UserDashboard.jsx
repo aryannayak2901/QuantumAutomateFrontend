@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./UserDashboard.css";
 import { Home, Users, Phone, Calendar, BarChart2, Settings } from 'lucide-react';
 import UserDashboardHome from "./UserDashboardHome/UserDashboardHome";
+import LeadsManagement from "./LeadsManagement/LeadsManagement";
 
 const UserDashboard = () => {
     const [navbarWidth, setNavbarWidth] = useState('20%'); // Default width as 20%
@@ -60,7 +61,8 @@ const UserDashboard = () => {
             ></div>
             
             <div className="user-dashboard-content-container">
-                <UserDashboardHome />
+                {/* <UserDashboardHome /> */}
+                <LeadsManagement />
             </div>
         </div>
     );

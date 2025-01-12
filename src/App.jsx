@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { TestApi } from './pages/indexPages'
-import { HomePage, UserDashboard, LeadsManagement } from './pages'
+import { HomePage, UserDashboard } from './pages'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
