@@ -1,60 +1,19 @@
 {
   "Leads": [
     {
-      "id": "4",
-      "name": "Emily Davis",
-      "phone": "+1 (456) 789-0123",
-      "email": "emilydavis@example.com",
-      "source": "Instagram",
-      "status": "Disqualified"
-    },
-    {
-      "id": "5",
-      "name": "James Wilson",
-      "phone": "+1 (567) 890-1234",
-      "email": "jameswilson@example.com",
-      "source": "Facebook",
-      "status": "New"
-    },
-    {
-      "id": "6",
-      "name": "Olivia Taylor",
-      "phone": "+1 (678) 901-2345",
-      "email": "oliviataylor@example.com",
-      "source": "Instagram",
-      "status": "Qualified"
-    },
-    {
-      "id": "7",
-      "name": "Lucas White",
-      "phone": "+1 (789) 012-3456",
-      "email": "lucaswhite@example.com",
-      "source": "Manually Added",
-      "status": "Contacted"
-    },
-    {
-      "id": "8",
-      "name": "Isabella Harris",
-      "phone": "+1 (890) 123-4567",
-      "email": "isabellaharris@example.com",
-      "source": "Facebook",
-      "status": "Disqualified"
-    },
-    {
-      "id": "9",
-      "name": "Ethan Lewis",
-      "phone": "+1 (901) 234-5678",
-      "email": "ethanlewis@example.com",
-      "source": "Instagram",
-      "status": "New"
-    },
-    {
       "id": "10",
       "name": "Sophia Clark",
       "phone": "+1 (012) 345-6789",
       "email": "sophiaclark@example.com",
       "source": "Manually Added",
-      "status": "Contacted"
+      "status": "Contacted",
+      "notes": [],
+      "appointment": {
+        "date": "2025-01-19",
+        "time": "17:58",
+        "reason": "Follow-Up",
+        "id": "0893"
+      }
     },
     {
       "id": "11",
@@ -399,6 +358,772 @@
       "email": "abc@abc.com",
       "source": "Instagram",
       "status": "Qualified"
+    }
+  ],
+  "CampaignManager": [
+    {
+      "id": "1",
+      "name": "Campaign Alpha",
+      "status": "Active",
+      "progress": 75
+    },
+    {
+      "id": "2",
+      "name": "Campaign Beta",
+      "status": "Inactive",
+      "progress": 40
+    },
+    {
+      "id": "3",
+      "name": "Campaign Gamma",
+      "status": "Active",
+      "progress": 90
+    },
+    {
+      "id": "4",
+      "name": "Campaign Delta",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "5",
+      "name": "Campaign Epsilon",
+      "status": "Active",
+      "progress": 60
+    },
+    {
+      "id": "6",
+      "name": "Campaign Zeta",
+      "status": "Inactive",
+      "progress": 30
+    },
+    {
+      "id": "7",
+      "name": "Campaign Eta",
+      "status": "Active",
+      "progress": 80
+    },
+    {
+      "id": "8",
+      "name": "Campaign Theta",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "9",
+      "name": "Campaign Iota",
+      "status": "Inactive",
+      "progress": 50
+    },
+    {
+      "id": "10",
+      "name": "Campaign Kappa",
+      "status": "Active",
+      "progress": 65
+    },
+    {
+      "id": "11",
+      "name": "Campaign Lambda",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "12",
+      "name": "Campaign Mu",
+      "status": "Active",
+      "progress": 95
+    },
+    {
+      "id": "13",
+      "name": "Campaign Nu",
+      "status": "Inactive",
+      "progress": 10
+    },
+    {
+      "id": "14",
+      "name": "Campaign Xi",
+      "status": "Active",
+      "progress": 50
+    },
+    {
+      "id": "15",
+      "name": "Campaign Omicron",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "16",
+      "name": "Campaign Pi",
+      "status": "Active",
+      "progress": 85
+    },
+    {
+      "id": "17",
+      "name": "Campaign Rho",
+      "status": "Inactive",
+      "progress": 20
+    },
+    {
+      "id": "18",
+      "name": "Campaign Sigma",
+      "status": "Active",
+      "progress": 70
+    },
+    {
+      "id": "19",
+      "name": "Campaign Tau",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "20",
+      "name": "Campaign Upsilon",
+      "status": "Inactive",
+      "progress": 15
+    },
+    {
+      "id": "21",
+      "name": "Campaign Phi",
+      "status": "Active",
+      "progress": 60
+    },
+    {
+      "id": "22",
+      "name": "Campaign Chi",
+      "status": "Inactive",
+      "progress": 25
+    },
+    {
+      "id": "23",
+      "name": "Campaign Psi",
+      "status": "Active",
+      "progress": 90
+    },
+    {
+      "id": "24",
+      "name": "Campaign Omega",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "25",
+      "name": "Campaign A",
+      "status": "Active",
+      "progress": 55
+    },
+    {
+      "id": "26",
+      "name": "Campaign B",
+      "status": "Inactive",
+      "progress": 35
+    },
+    {
+      "id": "27",
+      "name": "Campaign C",
+      "status": "Active",
+      "progress": 80
+    },
+    {
+      "id": "28",
+      "name": "Campaign D",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "29",
+      "name": "Campaign E",
+      "status": "Active",
+      "progress": 95
+    },
+    {
+      "id": "30",
+      "name": "Campaign F",
+      "status": "Inactive",
+      "progress": 40
+    },
+    {
+      "id": "31",
+      "name": "Campaign G",
+      "status": "Active",
+      "progress": 65
+    },
+    {
+      "id": "32",
+      "name": "Campaign H",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "33",
+      "name": "Campaign I",
+      "status": "Active",
+      "progress": 30
+    },
+    {
+      "id": "34",
+      "name": "Campaign J",
+      "status": "Inactive",
+      "progress": 60
+    },
+    {
+      "id": "35",
+      "name": "Campaign K",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "36",
+      "name": "Campaign L",
+      "status": "Active",
+      "progress": 85
+    },
+    {
+      "id": "37",
+      "name": "Campaign M",
+      "status": "Inactive",
+      "progress": 70
+    },
+    {
+      "id": "38",
+      "name": "Campaign N",
+      "status": "Active",
+      "progress": 40
+    },
+    {
+      "id": "39",
+      "name": "Campaign O",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "40",
+      "name": "Campaign P",
+      "status": "Inactive",
+      "progress": 55
+    },
+    {
+      "id": "41",
+      "name": "Campaign Q",
+      "status": "Active",
+      "progress": 50
+    },
+    {
+      "id": "42",
+      "name": "Campaign R",
+      "status": "Inactive",
+      "progress": 80
+    },
+    {
+      "id": "43",
+      "name": "Campaign S",
+      "status": "Active",
+      "progress": 65
+    },
+    {
+      "id": "44",
+      "name": "Campaign T",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "45",
+      "name": "Campaign U",
+      "status": "Active",
+      "progress": 95
+    },
+    {
+      "id": "46",
+      "name": "Campaign V",
+      "status": "Inactive",
+      "progress": 30
+    },
+    {
+      "id": "47",
+      "name": "Campaign W",
+      "status": "Active",
+      "progress": 90
+    },
+    {
+      "id": "48",
+      "name": "Campaign X",
+      "status": "Completed",
+      "progress": 100
+    },
+    {
+      "id": "49",
+      "name": "Campaign Y",
+      "status": "Active",
+      "progress": 85
+    },
+    {
+      "id": "50",
+      "name": "Campaign Z",
+      "status": "Inactive",
+      "progress": 20
+    },
+    {
+      "id": "74cd",
+      "name": "demo",
+      "leads": {
+        "file": {
+          "uid": "rc-upload-1736787763613-3"
+        },
+        "fileList": [
+          {
+            "uid": "rc-upload-1736787763613-3",
+            "lastModified": 1736587232085,
+            "lastModifiedDate": "2025-01-11T09:20:32.085Z",
+            "name": "leads.csv",
+            "size": 188,
+            "type": "text/csv",
+            "percent": 0,
+            "originFileObj": {
+              "uid": "rc-upload-1736787763613-3"
+            }
+          }
+        ]
+      },
+      "startDate": "2025-01-12T18:30:00.000Z"
+    }
+  ],
+  "CallLogs": [
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "phone": "9876543210",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 10:30 AM",
+      "campaignName": "@DreamHomesByLuxe"
+    },
+    {
+      "id": "3",
+      "name": "Robert Brown",
+      "phone": "1122334455",
+      "status": "Busy",
+      "outcome": "Follow-Up Required",
+      "timestamp": "2025-01-01 11:00 AM",
+      "campaignName": "@CityLoftVibes"
+    },
+    {
+      "id": "4",
+      "name": "Emily Johnson",
+      "phone": "2233445566",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 11:30 AM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@ModernLivingSpaces"
+    },
+    {
+      "id": "5",
+      "name": "Michael Lee",
+      "phone": "3344556677",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 12:00 PM",
+      "campaignName": "@LuxuryNestFinds"
+    },
+    {
+      "id": "6",
+      "name": "Sarah Davis",
+      "phone": "4455667788",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 12:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@CoastalViewsLiving"
+    },
+    {
+      "id": "7",
+      "name": "David Wilson",
+      "phone": "5566778899",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 01:00 PM",
+      "campaignName": "@UrbanOasisProperties"
+    },
+    {
+      "id": "8",
+      "name": "Laura Garcia",
+      "phone": "6677889900",
+      "status": "Busy",
+      "outcome": "Follow-Up Required",
+      "timestamp": "2025-01-01 01:30 PM",
+      "campaignName": "@ChicCityHomes"
+    },
+    {
+      "id": "9",
+      "name": "James Martinez",
+      "phone": "7788990011",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 02:00 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@SkylineResidences"
+    },
+    {
+      "id": "10",
+      "name": "Linda Rodriguez",
+      "phone": "8899001122",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 02:30 PM",
+      "campaignName": "@SerenityByTheSea"
+    },
+    {
+      "id": "11",
+      "name": "William Anderson",
+      "phone": "9900112233",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 03:00 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@PenthouseGoals"
+    },
+    {
+      "id": "12",
+      "name": "Barbara Thomas",
+      "phone": "1011122334",
+      "status": "Busy",
+      "outcome": "Follow-Up Required",
+      "timestamp": "2025-01-01 03:30 PM",
+      "campaignName": "@ElegantEstates"
+    },
+    {
+      "id": "13",
+      "name": "Joseph Taylor",
+      "phone": "1122334455",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 04:00 PM",
+      "campaignName": "@LuxuryUrbanLiving"
+    },
+    {
+      "id": "14",
+      "name": "Karen Moore",
+      "phone": "2233445566",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 04:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@DreamyRooftopViews"
+    },
+    {
+      "id": "15",
+      "name": "Steven Jackson",
+      "phone": "3344556677",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 05:00 PM",
+      "campaignName": "@CozyCottageVibes"
+    },
+    {
+      "id": "16",
+      "name": "Megan Harris",
+      "phone": "4455667788",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 05:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@OpulentLivingSpaces"
+    },
+    {
+      "id": "17",
+      "name": "Mark Young",
+      "phone": "5566778899",
+      "status": "Busy",
+      "outcome": "Follow-Up Required",
+      "timestamp": "2025-01-01 06:00 PM",
+      "campaignName": "@SuburbanBlissHomes"
+    },
+    {
+      "id": "18",
+      "name": "Susan Allen",
+      "phone": "6677889900",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 06:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@ChicDowntownLofts"
+    },
+    {
+      "id": "19",
+      "name": "Christopher King",
+      "phone": "7788990011",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 07:00 PM",
+      "campaignName": "@ExclusiveHouseHunts"
+    },
+    {
+      "id": "20",
+      "name": "Patricia Scott",
+      "phone": "8899001122",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 07:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@HighRiseLuxury"
+    },
+    {
+      "id": "21",
+      "name": "Matthew Wright",
+      "phone": "9900112233",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 08:00 PM",
+      "campaignName": "@GoldenGateEstates"
+    },
+    {
+      "id": "22",
+      "name": "Nancy Green",
+      "phone": "1011122334",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 08:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@LakefrontLiving"
+    },
+    {
+      "id": "23",
+      "name": "Joshua Adams",
+      "phone": "1122334455",
+      "status": "Busy",
+      "outcome": "Follow-Up Required",
+      "timestamp": "2025-01-01 09:00 PM",
+      "campaignName": "@VibrantVillaLife"
+    },
+    {
+      "id": "24",
+      "name": "Rebecca Nelson",
+      "phone": "2233445566",
+      "status": "Answered",
+      "outcome": "Appointment Scheduled",
+      "timestamp": "2025-01-01 09:30 PM",
+      "callRecording": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "campaignName": "@CountrysideChicHomes"
+    },
+    {
+      "id": "25",
+      "name": "Daniel Carter",
+      "phone": "3344556677",
+      "status": "Missed",
+      "outcome": "Voicemail",
+      "timestamp": "2025-01-01 10:00 PM",
+      "campaignName": "@CityScapeResidences"
+    },
+    {
+      "id": "26",
+      "name": "Robert Grey",
+      "phone": "1122334455",
+      "status": "Busy",
+      "outcome": "Follow-Up Required",
+      "timestamp": "2025-01-01 11:00 AM",
+      "campaignName": "@CityLoftVibes"
+    }
+  ],
+  "Appointments": [
+    {
+      "date": "2025-01-19",
+      "time": "17:58",
+      "reason": "Follow-Up",
+      "id": "0893"
+    },
+    {
+      "id": "485d",
+      "leadId": "10",
+      "date": "2025-01-19",
+      "time": "10:00",
+      "reason": "Follow-Up"
+    }
+  ],
+  "posts": [
+    {
+      "id": "123",
+      "caption": "New Year Sale Starts Now!",
+      "created_at": "2025-01-01",
+      "engagement": 150
+    },
+    {
+      "id": "124",
+      "caption": "Exciting Product Launch this week!",
+      "created_at": "2025-01-02",
+      "engagement": 230
+    },
+    {
+      "id": "125",
+      "caption": "Limited Time Offer: 50% off",
+      "created_at": "2025-01-03",
+      "engagement": 90
+    },
+    {
+      "id": "126",
+      "caption": "Customer Reviews: See What Others Are Saying",
+      "created_at": "2025-01-04",
+      "engagement": 120
+    },
+    {
+      "id": "127",
+      "caption": "Happy to Announce Our New Partnership",
+      "created_at": "2025-01-05",
+      "engagement": 75
+    },
+    {
+      "id": "128",
+      "caption": "How Our Product Can Help You Achieve More",
+      "created_at": "2025-01-06",
+      "engagement": 200
+    },
+    {
+      "id": "129",
+      "caption": "Behind the Scenes: Meet Our Team",
+      "created_at": "2025-01-07",
+      "engagement": 180
+    },
+    {
+      "id": "130",
+      "caption": "Seasonal Discount for First-Time Buyers!",
+      "created_at": "2025-01-08",
+      "engagement": 300
+    },
+    {
+      "id": "131",
+      "caption": "Thank You for a Successful Year! Here's What's Next",
+      "created_at": "2025-01-09",
+      "engagement": 110
+    },
+    {
+      "id": "132",
+      "caption": "Our Top 5 Best-Selling Products of 2025",
+      "created_at": "2025-01-10",
+      "engagement": 250
+    }
+  ],
+  "metrics": {
+    "totalCalls": 250,
+    "answeredCalls": 190,
+    "missedCalls": 60,
+    "campaignProgress": 75
+  },
+  "systemNumbers": [
+    {
+      "id": "1",
+      "number": "1234567890"
+    },
+    {
+      "id": "2",
+      "number": "9876543210"
+    }
+  ],
+  "personalNumbers": [
+    {
+      "number": "1234567890",
+      "verified": false,
+      "id": "618c"
+    },
+    {
+      "number": "9876543210",
+      "verified": true,
+      "id": "2a9e"
+    },
+    {
+      "id": "b7b5",
+      "number": "8976512340",
+      "verified": false
+    }
+  ],
+  "assignedSystemNumber": "",
+  "WarmLeads": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "contact": "john.doe@example.com",
+      "source": "Instagram",
+      "interestLevel": "High",
+      "status": "Contacted",
+      "nextFollowUp": "2025-02-10"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "contact": "jane.smith@example.com",
+      "source": "Facebook",
+      "interestLevel": "Medium",
+      "status": "Not Contacted",
+      "nextFollowUp": "2025-03-05"
+    },
+    {
+      "id": 3,
+      "name": "Alice Johnson",
+      "contact": "alice.johnson@example.com",
+      "source": "Manual",
+      "interestLevel": "Low",
+      "status": "Contacted",
+      "nextFollowUp": "2025-01-30"
+    },
+    {
+      "id": 4,
+      "name": "Bob Lee",
+      "contact": "bob.lee@example.com",
+      "source": "Instagram",
+      "interestLevel": "High",
+      "status": "Not Contacted",
+      "nextFollowUp": "2025-02-15"
+    },
+    {
+      "id": 5,
+      "name": "Mary Davis",
+      "contact": "mary.davis@example.com",
+      "source": "Facebook",
+      "interestLevel": "Medium",
+      "status": "Contacted",
+      "nextFollowUp": "2025-02-20"
+    },
+    {
+      "id": 6,
+      "name": "Michael Wilson",
+      "contact": "michael.wilson@example.com",
+      "source": "Manual",
+      "interestLevel": "High",
+      "status": "Contacted",
+      "nextFollowUp": "2025-01-28"
+    },
+    {
+      "id": 7,
+      "name": "Sarah Brown",
+      "contact": "sarah.brown@example.com",
+      "source": "Instagram",
+      "interestLevel": "Low",
+      "status": "Not Contacted",
+      "nextFollowUp": "2025-03-10"
+    },
+    {
+      "id": 8,
+      "name": "David Taylor",
+      "contact": "david.taylor@example.com",
+      "source": "Facebook",
+      "interestLevel": "Medium",
+      "status": "Contacted",
+      "nextFollowUp": "2025-01-25"
+    },
+    {
+      "id": 9,
+      "name": "Emily Harris",
+      "contact": "emily.harris@example.com",
+      "source": "Manual",
+      "interestLevel": "High",
+      "status": "Not Contacted",
+      "nextFollowUp": "2025-02-07"
+    },
+    {
+      "id": 10,
+      "name": "William Clark",
+      "contact": "william.clark@example.com",
+      "source": "Instagram",
+      "interestLevel": "Medium",
+      "status": "Contacted",
+      "nextFollowUp": "2025-02-18"
     }
   ]
 }

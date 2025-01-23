@@ -4,5 +4,7 @@ import QuickActions from "./QuickActions/QuickActions";
 import MetricCard from "./MetricCard/MetricCard";
 import AnalyticsChart from "./AnalyticsChart/AnalyticsChart";
 import ActivityFeed from "./ActivityFeed/ActivityFeed";
+import EditAppointmentModal from "./EditAppointmentModal/EditAppointmentModal";
+import SetAppointmentModal from "./SetAppointmentModal/SetAppointmentModal";
 
-export { WelcomeMessage, WelcomeBanner, QuickActions, MetricCard, AnalyticsChart, ActivityFeed };
+export { WelcomeMessage, WelcomeBanner, QuickActions, MetricCard, AnalyticsChart, ActivityFeed, EditAppointmentModal, SetAppointmentModal };

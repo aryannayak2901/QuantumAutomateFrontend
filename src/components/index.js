@@ -6,6 +6,8 @@ import LearnMoreButton from "./Buttons/LearnMoreButton/LearnMoreButton";
 import VerticalTimeLineSection from "./VerticalTimeLineSection/VerticalTimeLineSection";
 import CallToActionSection from "./CallToActionSection/CallToActionSection";
 import FooterSection from "./FooterSection/FooterSection";
+import SetAppointmentModal from "./UserDashboardComponents/SetAppointmentModal/SetAppointmentModal";
+import EditAppointmentModal from "./UserDashboardComponents/EditAppointmentModal/EditAppointmentModal";
 
 export {
     HeaderSection,
@@ -15,5 +17,7 @@ export {
     LearnMoreButton,
     VerticalTimeLineSection,
     CallToActionSection,
-    FooterSection
+    FooterSection,
+    SetAppointmentModal,
+    EditAppointmentModal
 }

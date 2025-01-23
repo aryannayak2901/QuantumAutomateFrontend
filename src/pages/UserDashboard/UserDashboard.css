@@ -54,6 +54,46 @@
     cursor: pointer;
 }
 
+.navbar-item.active {
+    background-color: #1890ff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.navbar-item.active p {
+    color: white;
+}
+
+.navbar-item.active {
+    background-color: #1890ff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.navbar-item.active p {
+    color: white;
+}
+
+.ant-tabs-nav {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.ant-tabs-tab {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.ant-tabs-tab-active {
+    font-weight: bold;
+    color: #1890ff;
+}
+
+
 @media (max-width: 768px) {
 
     /* Styles for mobile devices go here */
@@ -64,7 +104,7 @@
     .user-dashboard-logo-container {
         display: none;
     }
-    
+
     .navbar {
         flex-direction: row;
         justify-content: space-evenly;
