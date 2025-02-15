@@ -2,7 +2,7 @@ import React from "react";
 import { Tabs } from "antd";
 import WarmLeads from "../WarmLeads/WarmLeads";
 import Appointments from "../AICallingAgent/Appointments/Appointments";
-import "./WarmLeadsAndAppointments.css";
+// import "./WarmLeadsAndAppointments.css";
 
 const WarmLeadsAndAppointments = () => {
     return (

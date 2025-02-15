@@ -8,6 +8,7 @@ import CallToActionSection from "./CallToActionSection/CallToActionSection";
 import FooterSection from "./FooterSection/FooterSection";
 import SetAppointmentModal from "./UserDashboardComponents/SetAppointmentModal/SetAppointmentModal";
 import EditAppointmentModal from "./UserDashboardComponents/EditAppointmentModal/EditAppointmentModal";
+import { DMStatusDashboard, ActivityFeed } from "./UserDashboardComponents";
 
 export {
     HeaderSection,
@@ -19,5 +20,7 @@ export {
     CallToActionSection,
     FooterSection,
     SetAppointmentModal,
-    EditAppointmentModal
+    EditAppointmentModal,
+    DMStatusDashboard,
+    ActivityFeed
 }

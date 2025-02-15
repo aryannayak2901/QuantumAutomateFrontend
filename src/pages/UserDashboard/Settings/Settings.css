@@ -1,0 +1,41 @@
+.settings-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.settings-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1890ff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ant-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.ant-form-item-label > label {
+    font-weight: bold;
+    color: #555;
+}
+
+button.ant-btn-primary {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    border-radius: 5px;
+}
+
+button.ant-btn-primary:hover {
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+}

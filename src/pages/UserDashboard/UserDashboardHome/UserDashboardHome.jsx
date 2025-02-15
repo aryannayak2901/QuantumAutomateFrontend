@@ -1,6 +1,5 @@
 import React from 'react';
-import { WelcomeMessage, WelcomeBanner, QuickActions, MetricCard, AnalyticsChart, ActivityFeed } from '../../../components/UserDashboardComponents'
-import './UserDashboardHome.css';
+import { WelcomeBanner, QuickActions, MetricCard, AnalyticsChart, ActivityFeed } from '../../../components/UserDashboardComponents';
 
 const metrics = [
     { title: 'Leads Generated', value: '127', trend: '+12%' },
@@ -11,25 +10,28 @@ const metrics = [
 
 function UserDashboardHome() {
     return (
-
-        <div className="container">
+        <div className="max-w-7xl mx-auto">
             {/* Welcome Banner */}
             <WelcomeBanner />
 
-            {/* Metrics Section */}
-            <div className="metrics-grid">
+            {/* Quick Actions */}
+            <QuickActions />
+
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {metrics.map((metric) => (
                     <MetricCard key={metric.title} {...metric} />
                 ))}
             </div>
 
-            {/* Quick Actions Section */}
-            <QuickActions />
-
-            {/* Main Content Section */}
-            <div className="content-grid">
-                <ActivityFeed />
-                <AnalyticsChart />
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                    <AnalyticsChart />
+                </div>
+                <div className="lg:col-span-1">
+                    <ActivityFeed />
+                </div>
             </div>
         </div>
     );

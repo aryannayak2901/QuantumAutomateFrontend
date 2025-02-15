@@ -3,11 +3,10 @@ import { Table, Button, Input, Select, Upload, Pagination, Modal, Form, message,
 import { UploadOutlined, DownloadOutlined, FilterOutlined, CloseOutlined, PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, CloudUploadOutlined, MessageOutlined, SendOutlined } from '@ant-design/icons';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import axios from 'axios';
-import './LeadsManagement.css';
+// import './LeadsManagement.css';
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, BarElement, LineElement, Title, Tooltip, Legend, PointElement } from 'chart.js';
 
-import SetAppointmentModal from '../../../components/UserDashboardComponents/SetAppointmentModal/SetAppointmentModal';
-import EditAppointmentModal from '../../../components/UserDashboardComponents/EditAppointmentModal/EditAppointmentModal';
+import { SetAppointmentModal, EditAppointmentModal } from '../../../components';
 
 // Register components
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);

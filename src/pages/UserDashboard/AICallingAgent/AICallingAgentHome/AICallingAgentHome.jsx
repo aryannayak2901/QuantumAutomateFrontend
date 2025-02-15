@@ -36,17 +36,18 @@ const AICallingAgentHome = () => {
         testCallStatus: null,
     });
 
-    // Fetch metrics and phone numbers
-    useEffect(() => {
-        fetchMetrics();
-        fetchNumbers();
-    }, []);
-
+    // Fetch metrics
     const fetchMetrics = async () => {
         setLoading(true);
         try {
             const response = await axios.get("http://localhost:3000/metrics");
-            setMetrics(response.data);
+            // Clone only the data we need
+            setMetrics({
+                totalCalls: response.data.totalCalls || 0,
+                answeredCalls: response.data.answeredCalls || 0,
+                missedCalls: response.data.missedCalls || 0,
+                campaignProgress: response.data.campaignProgress || 0,
+            });
         } catch (error) {
             console.error("Error fetching dashboard metrics:", error);
             message.error("Failed to fetch dashboard metrics. Please try again.");
@@ -55,18 +56,38 @@ const AICallingAgentHome = () => {
         }
     };
 
+    // Fetch numbers
     const fetchNumbers = async () => {
         try {
-            const systemResponse = await axios.get("http://localhost:3000/systemNumbers");
-            const personalResponse = await axios.get("http://localhost:3000/personalNumbers");
-            setSystemNumbers(systemResponse.data);
-            setPersonalNumbers(personalResponse.data);
-            setAssignedSystemNumber(systemResponse.data[0]); // Default assigned number
+            const [systemResponse, personalResponse] = await Promise.all([
+                axios.get("http://localhost:3000/systemNumbers"),
+                axios.get("http://localhost:3000/personalNumbers")
+            ]);
+            
+            // Clone only the necessary data
+            setSystemNumbers(systemResponse.data.map(num => ({
+                id: num.id,
+                number: num.number
+            })));
+            
+            setPersonalNumbers(personalResponse.data.map(num => ({
+                number: num.number,
+                verified: num.verified
+            })));
+            
+            if (systemResponse.data.length > 0) {
+                setAssignedSystemNumber(systemResponse.data[0].number);
+            }
         } catch (error) {
             console.error("Error fetching numbers:", error);
             message.error("Failed to fetch phone numbers. Please try again.");
         }
     };
+
+    useEffect(() => {
+        fetchMetrics();
+        fetchNumbers();
+    }, []);
 
     const handleAssignSystemNumber = async (number) => {
         try {
@@ -116,7 +137,6 @@ const AICallingAgentHome = () => {
             message.error("Failed to verify the number. Please try again.");
         }
     };
-
 
     const handleCallSettingChange = (e) => {
         setCallSettings({ ...callSettings, incomingCallHandling: e.target.value });
