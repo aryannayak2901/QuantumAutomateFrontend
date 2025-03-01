@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Space, Button, Modal, Spin, message, Select } from "antd";
-import { PhoneOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Table, Tag, Space, Button, Modal, Spin, message, Select, Typography } from "antd";
+import { PhoneOutlined, DeleteOutlined, EyeOutlined, AudioOutlined } from "@ant-design/icons";
 import axios from "axios";
+
+const { Text } = Typography;
 
 const CallLogs = () => {
     const [callLogs, setCallLogs] = useState([]);
@@ -11,6 +13,8 @@ const CallLogs = () => {
     const [loading, setLoading] = useState(false);
     const [viewModalVisible, setViewModalVisible] = useState(false);
     const [selectedCallLog, setSelectedCallLog] = useState(null);
+    const [transcriptions, setTranscriptions] = useState({});
+    const [loadingTranscription, setLoadingTranscription] = useState(false);
 
     // Fetch call logs and extract unique campaigns
     const fetchCallLogs = async () => {
@@ -73,6 +77,23 @@ const CallLogs = () => {
         } catch (error) {
             console.error("Error deleting call log:", error);
             message.error("Failed to delete call log. Please try again later.");
+        }
+    };
+
+    // Fetch transcription for a specific call
+    const fetchTranscription = async (callSid) => {
+        setLoadingTranscription(true);
+        try {
+            const response = await axios.get(`http://localhost:8000/api/twilio/call-transcriptions/${callSid}/`);
+            setTranscriptions(prev => ({
+                ...prev,
+                [callSid]: response.data.transcription
+            }));
+        } catch (error) {
+            console.error("Error fetching transcription:", error);
+            message.error("Failed to fetch call transcription");
+        } finally {
+            setLoadingTranscription(false);
         }
     };
 
@@ -140,6 +161,27 @@ const CallLogs = () => {
             ),
         },
         {
+            title: "Duration",
+            dataIndex: "duration",
+            key: "duration",
+            render: (duration) => `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, '0')}`,
+        },
+        {
+            title: "Recording",
+            key: "recording",
+            render: (_, record) => (
+                record.recordingUrl && (
+                    <Button 
+                        type="link" 
+                        icon={<AudioOutlined />}
+                        onClick={() => handleViewClick(record)}
+                    >
+                        Listen
+                    </Button>
+                )
+            ),
+        },
+        {
             title: "Actions",
             key: "actions",
             render: (_, record) => (
@@ -162,10 +204,104 @@ const CallLogs = () => {
         },
     ];
 
+    const ViewCallLogModal = () => (
+        <Modal
+            title="Call Log Details"
+            open={viewModalVisible}
+            onCancel={() => setViewModalVisible(false)}
+            footer={null}
+            width={700}
+        >
+            {selectedCallLog && (
+                <div className="space-y-4">
+                    <p>
+                        <strong>Name:</strong> {selectedCallLog.name}
+                    </p>
+                    <p>
+                        <strong>Phone:</strong> {selectedCallLog.phone}
+                    </p>
+                    <p>
+                        <strong>Status:</strong>{" "}
+                        <Tag
+                            color={
+                                selectedCallLog.status === "Answered"
+                                    ? "green"
+                                    : selectedCallLog.status === "Missed"
+                                        ? "red"
+                                        : "orange"
+                            }
+                        >
+                            {selectedCallLog.status}
+                        </Tag>
+                    </p>
+                    <p><strong>Campaign Name:</strong> {selectedCallLog.campaignName || "N/A"}</p>
+                    <p>
+                        <strong>Timestamp:</strong> {selectedCallLog.timestamp}
+                    </p>
+                    <p>
+                        <strong>Outcome:</strong> {selectedCallLog.outcome}
+                    </p>
+                    {selectedCallLog.status === "Answered" && selectedCallLog.callRecording ? (
+                        <div>
+                            <strong>Recording:</strong>
+                            <audio
+                                controls
+                                src={selectedCallLog.callRecording}
+                                style={{ marginTop: "10px", width: "100%" }}
+                            />
+                            <Button
+                                type="link"
+                                danger
+                                icon={<DeleteOutlined />}
+                                onClick={handleDeleteRecording}
+                            >
+                                Delete Recording
+                            </Button>
+                        </div>
+                    ) : (
+                        <p>
+                            <strong>Note:</strong> {selectedCallLog.status}
+                        </p>
+                    )}
+                    
+                    {/* Transcription Section */}
+                    <div className="mt-4">
+                        <h3 className="text-lg font-semibold mb-2">Transcription</h3>
+                        {loadingTranscription ? (
+                            <Spin />
+                        ) : transcriptions[selectedCallLog.callSid] ? (
+                            <div className="bg-gray-50 p-4 rounded-md">
+                                <Text>{transcriptions[selectedCallLog.callSid]}</Text>
+                            </div>
+                        ) : (
+                            <Button 
+                                type="primary" 
+                                onClick={() => fetchTranscription(selectedCallLog.callSid)}
+                            >
+                                Load Transcription
+                            </Button>
+                        )}
+                    </div>
+
+                    {/* Recording Player */}
+                    {selectedCallLog.recordingUrl && (
+                        <div className="mt-4">
+                            <h3 className="text-lg font-semibold mb-2">Recording</h3>
+                            <audio
+                                controls
+                                src={selectedCallLog.recordingUrl}
+                                className="w-full"
+                            />
+                        </div>
+                    )}
+                </div>
+            )}
+        </Modal>
+    );
+
     return (
         <div>
             <h2 style={{ fontWeight: "bold", marginBottom: "20px" }}>Call Logs</h2>
-
 
             {/* Campaign Filter */}
             <div style={{ marginBottom: 20 }}>
@@ -184,8 +320,6 @@ const CallLogs = () => {
                     ))}
                 </Select>
             </div>
-
-
 
             {loading ? (
                 <div style={{ textAlign: "center", marginTop: "20px" }}>
@@ -211,67 +345,7 @@ const CallLogs = () => {
                 />
             )}
 
-            {/* View Call Log Modal */}
-            <Modal
-                title="Call Log Details"
-                open={viewModalVisible}
-                onCancel={() => setViewModalVisible(false)}
-                footer={null}
-            >
-                {selectedCallLog && (
-                    <div>
-                        <p>
-                            <strong>Name:</strong> {selectedCallLog.name}
-                        </p>
-                        <p>
-                            <strong>Phone:</strong> {selectedCallLog.phone}
-                        </p>
-                        <p>
-                            <strong>Status:</strong>{" "}
-                            <Tag
-                                color={
-                                    selectedCallLog.status === "Answered"
-                                        ? "green"
-                                        : selectedCallLog.status === "Missed"
-                                            ? "red"
-                                            : "orange"
-                                }
-                            >
-                                {selectedCallLog.status}
-                            </Tag>
-                        </p>
-                        <p><strong>Campaign Name:</strong> {selectedCallLog.campaignName || "N/A"}</p>
-                        <p>
-                            <strong>Timestamp:</strong> {selectedCallLog.timestamp}
-                        </p>
-                        <p>
-                            <strong>Outcome:</strong> {selectedCallLog.outcome}
-                        </p>
-                        {selectedCallLog.status === "Answered" && selectedCallLog.callRecording ? (
-                            <div>
-                                <strong>Recording:</strong>
-                                <audio
-                                    controls
-                                    src={selectedCallLog.callRecording}
-                                    style={{ marginTop: "10px", width: "100%" }}
-                                />
-                                <Button
-                                    type="link"
-                                    danger
-                                    icon={<DeleteOutlined />}
-                                    onClick={handleDeleteRecording}
-                                >
-                                    Delete Recording
-                                </Button>
-                            </div>
-                        ) : (
-                            <p>
-                                <strong>Note:</strong> {selectedCallLog.status}
-                            </p>
-                        )}
-                    </div>
-                )}
-            </Modal>
+            <ViewCallLogModal />
         </div>
     );
 };

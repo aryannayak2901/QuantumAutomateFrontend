@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Add this to your global.css or component styles */
+.custom-dropdown-menu {
+  .ant-dropdown-menu {
+    @apply min-w-[160px] py-1 rounded-lg shadow-lg border border-gray-200;
+  }
+
+  .ant-dropdown-menu-item {
+    @apply px-4 py-2 text-sm hover:bg-gray-50;
+  }
+
+  .ant-dropdown-menu-item-danger {
+    @apply text-red-600 hover:bg-red-50;
+  }
+
+  .ant-dropdown-menu-item-disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}

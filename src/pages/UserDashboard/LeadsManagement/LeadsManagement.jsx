@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Input, Select, Upload, Pagination, Modal, Form, message, Popconfirm, Tag } from 'antd';
-import { UploadOutlined, DownloadOutlined, FilterOutlined, CloseOutlined, PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, CloudUploadOutlined, MessageOutlined, SendOutlined } from '@ant-design/icons';
+import { Table, Button, Input, Select, Upload, Pagination, Modal, Form, message, Popconfirm, Tag, Space, Dropdown } from 'antd';
+import { UploadOutlined, DownloadOutlined, FilterOutlined, CloseOutlined, PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, CloudUploadOutlined, MessageOutlined, SendOutlined, PhoneOutlined, MoreOutlined } from '@ant-design/icons';
 import { Pie, Bar, Line } from 'react-chartjs-2';
 import axios from 'axios';
 // import './LeadsManagement.css';
@@ -13,6 +13,27 @@ ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, LineElement
 
 const { Search, TextArea } = Input;
 const { Option } = Select;
+
+const getStatusColor = (status) => {
+  switch (status?.toLowerCase()) {
+    case 'new':
+      return 'blue';
+    case 'contacted':
+      return 'orange';
+    case 'qualified':
+      return 'green';
+    case 'proposal_sent':
+      return 'purple';
+    case 'negotiation':
+      return 'geekblue';
+    case 'won':
+      return 'success';
+    case 'lost':
+      return 'error';
+    default:
+      return 'default';
+  }
+};
 
 const LeadsManagement = () => {
   const [leads, setLeads] = useState([]);
@@ -54,7 +75,8 @@ const LeadsManagement = () => {
   const [isSetAppointmentModalVisible, setisSetAppointmentModalVisible] = useState(false);
   const [isEditAppointmentModalVisible, setIsEditAppointmentModalVisible] = useState(false);
 
-
+  const [campaigns, setCampaigns] = useState([]);
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
     fetchLeads();
@@ -265,7 +287,13 @@ const LeadsManagement = () => {
       .sort()
       .map((date) => ({ date, count: leadsGrowth[date] }));
 
-    return { leadsByStatus, leadsBySource, leadsGrowthTrend };
+    const leadsByCampaign = leads.reduce((acc, lead) => {
+      const campaign = lead.campaign_name || 'No Campaign';
+      acc[campaign] = (acc[campaign] || 0) + 1;
+      return acc;
+    }, {});
+
+    return { leadsByStatus, leadsBySource, leadsGrowthTrend, leadsByCampaign };
   };
 
   const analyticsData = calculateAnalytics();
@@ -492,6 +520,11 @@ const LeadsManagement = () => {
       filtered = filtered.filter((lead) => lead.source === sourceFilter);
     }
 
+    // Apply campaign filter
+    if (filters.campaign) {
+      filtered = filtered.filter((lead) => lead.campaign_name === filters.campaign);
+    }
+
     // Paginate the results
     const startIndex = (page - 1) * pageSize;
     const paginated = filtered.slice(startIndex, startIndex + pageSize);
@@ -519,127 +552,280 @@ const LeadsManagement = () => {
 
   const handlePageSizeChange = (current, size) => setPageSize(size);
 
+  const handleCallLead = async (lead) => {
+    try {
+      // First check if Twilio is activated
+      const twilioStatusResponse = await axios.get(
+        'http://localhost:8000/api/users/twilio-status/',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        }
+      );
+
+      const twilioStatus = twilioStatusResponse.data;
+
+      // Check if Twilio setup is complete
+      if (!twilioStatus.active) {
+        message.error('Please activate Twilio first to make calls');
+        // Optionally redirect to Twilio setup
+        // history.push('/settings/twilio-setup');
+        return;
+      }
+
+      if (twilioStatus.needs_phone_number) {
+        message.error('Please complete Twilio setup by acquiring a phone number');
+        // Optionally redirect to phone number setup
+        // history.push('/settings/twilio-setup');
+        return;
+      }
+
+      if (!twilioStatus.setup_complete) {
+        message.error('Please complete Twilio setup before making calls');
+        return;
+      }
+
+      // If Twilio is fully set up, proceed with making the call
+      const response = await axios.post(
+        'http://localhost:8000/api/calling/make-call/',
+        {
+          lead_phone: lead.phone,
+          lead_name: lead.name,
+          lead_id: lead.id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        }
+      );
+
+      if (response.data.call_sid) {
+        message.success(`Initiating call to ${lead.name}`);
+      } else {
+        throw new Error(response.data.message || 'Failed to initiate call');
+      }
+    } catch (error) {
+      console.error('Call initiation error:', error);
+      if (error.response?.status === 403) {
+        const errorMessage = error.response.data.error ||
+          'You do not have permission to make calls';
+        message.error(errorMessage);
+
+        // Handle specific Twilio setup needs
+        if (error.response.data.needs_twilio_setup) {
+          // Redirect to Twilio setup
+          // history.push('/settings/twilio-setup');
+        }
+      } else {
+        message.error(
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          'Failed to initiate call'
+        );
+      }
+    }
+  };
+
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Phone', dataIndex: 'phone', key: 'phone' },
-    { title: 'Email', dataIndex: 'email', key: 'email' },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      fixed: 'left',  // Pin the name column to the left
+      width: 150,
+    },
+    {
+      title: 'Phone',
+      dataIndex: 'phone',
+      key: 'phone',
+      width: 150,
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      width: 200,
+      ellipsis: true,  // Add ellipsis for long emails
+    },
     {
       title: 'Source',
       dataIndex: 'source',
       key: 'source',
-      filters: [
-        { text: 'Instagram', value: 'Instagram' },
-        { text: 'Facebook', value: 'Facebook' },
-        { text: 'Manually Added', value: 'Manually Added' },
-      ],
-      onFilter: (value, record) => record.source === value,
+      width: 120,
     },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
     {
-      title: 'DM Status',
-      dataIndex: 'dmStatus',
-      key: 'dmStatus',
-      render: (status) => {
-        const color =
-          status === 'Sent'
-            ? 'blue'
-            : status === 'Responded'
-              ? 'green'
-              : status === 'Failed'
-                ? 'red'
-                : 'gray';
-        return <Tag color={color}>{status || 'Pending'}</Tag>;
-      },
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      width: 120,
+      render: (status) => (
+        <Tag color={getStatusColor(status)}>{status}</Tag>
+      ),
+    },
+    {
+      title: 'Campaign',
+      dataIndex: 'campaign_name',
+      key: 'campaign_name',
+      width: 150,
+      render: (text) => <span>{text || 'N/A'}</span>,
     },
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record) => (
-        <div className="actions-column">
-          <Button type="link" icon={<EyeOutlined />} onClick={() => handleViewLead(record)}>
-            View
-          </Button>
-          <Button
-            type="link"
-            icon={<MessageOutlined />}
-            onClick={() => sendDM(record)}
-            disabled={record.dmStatus === 'Sent' || record.dmStatus === 'Responded'}
+      fixed: 'right',
+      width: 80,
+      render: (_, record) => {
+        const items = [
+          {
+            key: 'view',
+            label: 'View',
+            onClick: () => handleViewLead(record),
+          },
+          {
+            key: 'sendDM',
+            label: 'Send DM',
+            disabled: record.dmStatus === 'Sent' || record.dmStatus === 'Responded',
+            onClick: () => sendDM(record),
+          },
+          {
+            key: 'edit',
+            label: 'Edit',
+            onClick: () => openEditModal(record),
+          },
+          {
+            key: 'delete',
+            label: 'Delete',
+            danger: true,
+            onClick: () => {
+              Modal.confirm({
+                title: 'Are you sure you want to delete this lead?',
+                content: 'This action cannot be undone.',
+                okText: 'Yes',
+                okType: 'danger',
+                cancelText: 'No',
+                onOk: () => handleDeleteLead(record.id),
+              });
+            },
+          },
+          {
+            key: 'call',
+            label: 'Call',
+            disabled: !record.phone,
+            onClick: () => handleCallLead(record),
+          },
+        ];
+
+        return (
+          <Dropdown
+            menu={{ items }}
+            trigger={['click']}
+            placement="bottomRight"
+            overlayClassName="custom-dropdown-menu"
           >
-            Send DM
-          </Button>
-          <Button type="link" icon={<EditOutlined />} onClick={() => openEditModal(record)}>
-            Edit
-          </Button>
-          <Popconfirm
-            title="Are you sure you want to delete this lead?"
-            onConfirm={() => handleDeleteLead(record.id)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="link" danger icon={<DeleteOutlined />}>
-              Delete
-            </Button>
-          </Popconfirm>
-        </div>
-      ),
+            <Button
+              type="text"
+              icon={<MoreOutlined />}
+              className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full"
+              onClick={(e) => e.preventDefault()}
+            />
+          </Dropdown>
+        );
+      },
     },
   ];
 
+  // Add CSS for better responsiveness
+  const styles = {
+    tableContainer: {
+      '@media (max-width: 640px)': {
+        margin: '0 -1rem',  // Negative margin on small screens to use full width
+      },
+    },
+    filterSection: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '1rem',
+      marginBottom: '1rem',
+      '@media (max-width: 640px)': {
+        flexDirection: 'column',
+      },
+    },
+  };
+
   return (
-    <div className="leads-management">
-
-
-      <div className="analytics">
-        <div className="chart">
-          <h3>Leads by Status</h3>
+    <div className="p-4 md:p-6 space-y-6">
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white p-4 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Leads by Status</h3>
           <Pie data={leadsByStatusData} />
         </div>
-        <div className="chart">
-          <h3>Leads by Source</h3>
+        <div className="bg-white p-4 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Leads by Source</h3>
           <Bar data={leadsBySourceData} />
         </div>
-        <div className="chart">
-          <h3>Leads Growth Trend</h3>
+        <div className="bg-white p-4 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Leads Growth Trend</h3>
           <Line data={leadsGrowthData} />
+        </div>
+        <div className="bg-white p-4 rounded-lg shadow">
+          <h3 className="text-lg font-semibold mb-4">Leads by Campaign</h3>
+          <Bar
+            data={{
+              labels: Object.keys(analyticsData.leadsByCampaign),
+              datasets: [{
+                label: 'Leads by Campaign',
+                data: Object.values(analyticsData.leadsByCampaign),
+                backgroundColor: '#4caf50',
+              }],
+            }}
+          />
         </div>
       </div>
 
-
-      <div className="header">
-        <h2>Leads Management</h2>
-        <div className="actions">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <h2 className="text-2xl font-bold">Leads Management</h2>
+        <div className="flex flex-wrap gap-2">
           <Button
             type="primary"
             icon={<CloudUploadOutlined />}
             onClick={() => setShowImportModal(true)}
           >
-            Import Leads from Social Media
+            Import Leads
           </Button>
-          <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)}>
-            Manually Add Entry
+          <Button 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            onClick={() => setIsModalVisible(true)}
+          >
+            Add Lead
           </Button>
-          <Button type="primary" icon={<DownloadOutlined />} onClick={() => { }}>
-            Export CSV
-          </Button>
-          <Upload beforeUpload={() => false} onChange={() => { }} showUploadList={false}>
-            <Button type="default" icon={<UploadOutlined />}>
-              Import CSV
-            </Button>
-          </Upload>
-          <Button type="default" onClick={handleToggleFilters} icon={showFilters ? <CloseOutlined /> : <FilterOutlined />}>
-            {showFilters ? 'Close Filters' : 'Show Filters'}
+          <Button 
+            type="default" 
+            onClick={handleToggleFilters} 
+            icon={showFilters ? <CloseOutlined /> : <FilterOutlined />}
+          >
+            {showFilters ? 'Hide Filters' : 'Filters'}
           </Button>
         </div>
       </div>
 
+      {/* Filters Section */}
       {showFilters && (
-        <div className="filters">
-          <Search placeholder="Search leads" onSearch={handleSearch} allowClear />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <Search 
+            placeholder="Search leads" 
+            onSearch={handleSearch} 
+            allowClear 
+          />
           <Select
             placeholder="Filter by status"
             onChange={(value) => setStatusFilter(value || '')}
             value={statusFilter || undefined}
-            style={{ width: 200 }}
+            className="w-full"
             allowClear
           >
             <Option value="New">New</Option>
@@ -651,33 +837,51 @@ const LeadsManagement = () => {
             placeholder="Filter by source"
             onChange={(value) => setSourceFilter(value || '')}
             value={sourceFilter || undefined}
-            style={{ width: 200 }}
+            className="w-full"
             allowClear
           >
             <Option value="Instagram">Instagram</Option>
             <Option value="Facebook">Facebook</Option>
             <Option value="Manually Added">Manually Added</Option>
           </Select>
-          <Button type="default" onClick={handleClearFilters}>
-            Clear Filters
-          </Button>
+          <Select
+            placeholder="Filter by Campaign"
+            onChange={(value) => setFilters({ ...filters, campaign: value })}
+            value={filters.campaign || undefined}
+            className="w-full"
+            allowClear
+          >
+            {campaigns.map(campaign => (
+              <Option key={campaign} value={campaign}>{campaign}</Option>
+            ))}
+          </Select>
         </div>
       )}
 
-      <Table
-        dataSource={filteredLeads}
-        columns={columns}
-        loading={loading}
-        rowKey="id"
-        pagination={{
-          current: page,
-          total,
-          pageSize,
-          onChange: handlePageChange,
-          showSizeChanger: true,
-          onShowSizeChange: handlePageSizeChange,
-        }}
-      />
+      {/* Table Section */}
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table
+            dataSource={filteredLeads}
+            columns={columns}
+            loading={loading}
+            pagination={{
+              current: page,
+              pageSize: pageSize,
+              total: total,
+              onChange: (page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              },
+              showSizeChanger: true,
+              showTotal: (total) => `Total ${total} items`,
+              className: "p-4"
+            }}
+            scroll={{ x: 'max-content' }}
+            rowKey="id"
+          />
+        </div>
+      </div>
 
       {/* Add Lead Modal */}
       <Modal
@@ -727,6 +931,13 @@ const LeadsManagement = () => {
               <Option value="Qualified">Qualified</Option>
               <Option value="Disqualified">Disqualified</Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            label="Campaign Name"
+            name="campaign_name"
+            rules={[{ required: false, message: 'Please enter the campaign name' }]}
+          >
+            <Input placeholder="Enter campaign name" />
           </Form.Item>
         </Form>
       </Modal>
@@ -782,6 +993,13 @@ const LeadsManagement = () => {
               <Option value="Qualified">Qualified</Option>
               <Option value="Disqualified">Disqualified</Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            label="Campaign Name"
+            name="campaign_name"
+            rules={[{ required: false }]}
+          >
+            <Input placeholder="Enter campaign name" />
           </Form.Item>
         </Form>
       </Modal>

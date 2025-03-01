@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Response>
+    <Say voice="alice" language="en-US">
+        Hi, this is Aryan from Quantum Automate. 
+        Our platform helps you generate leads and convert those leads into customers. 
+        Thank you for considering Quantum Automate for your business needs.
+    </Say>
+</Response>

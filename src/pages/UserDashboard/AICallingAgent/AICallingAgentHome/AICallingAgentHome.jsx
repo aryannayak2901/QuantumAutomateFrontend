@@ -35,6 +35,12 @@ const AICallingAgentHome = () => {
         incomingCallHandling: "forward",
         testCallStatus: null,
     });
+    const [callMetrics, setCallMetrics] = useState({
+        totalCalls: 0,
+        successfulCalls: 0,
+        failedCalls: 0,
+        averageDuration: 0
+    });
 
     // Fetch metrics
     const fetchMetrics = async () => {
@@ -87,6 +93,18 @@ const AICallingAgentHome = () => {
     useEffect(() => {
         fetchMetrics();
         fetchNumbers();
+        const fetchCallMetrics = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/twilio/call-metrics/');
+                setCallMetrics(response.data);
+            } catch (error) {
+                console.error('Error fetching call metrics:', error);
+            }
+        };
+
+        fetchCallMetrics();
+        const interval = setInterval(fetchCallMetrics, 60000); // Refresh every minute
+        return () => clearInterval(interval);
     }, []);
 
     const handleAssignSystemNumber = async (number) => {
@@ -182,6 +200,28 @@ const AICallingAgentHome = () => {
                         </Col>
                     </Row>
                     <Progress percent={metrics.campaignProgress} status="active" />
+                    <Row gutter={[16, 16]}>
+                        <Col xs={24} sm={12} lg={6}>
+                            <Card title="Total Calls" bordered={false}>
+                                <h2>{callMetrics.totalCalls}</h2>
+                            </Card>
+                        </Col>
+                        <Col xs={24} sm={12} lg={6}>
+                            <Card title="Successful Calls" bordered={false}>
+                                <h2>{callMetrics.successfulCalls}</h2>
+                            </Card>
+                        </Col>
+                        <Col xs={24} sm={12} lg={6}>
+                            <Card title="Failed Calls" bordered={false}>
+                                <h2>{callMetrics.failedCalls}</h2>
+                            </Card>
+                        </Col>
+                        <Col xs={24} sm={12} lg={6}>
+                            <Card title="Avg. Duration" bordered={false}>
+                                <h2>{Math.floor(callMetrics.averageDuration / 60)}:{(callMetrics.averageDuration % 60).toString().padStart(2, '0')}</h2>
+                            </Card>
+                        </Col>
+                    </Row>
                 </>
             )}
 

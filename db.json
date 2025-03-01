@@ -1,19 +1,12 @@
 {
   "Leads": [
     {
-      "id": "10",
       "name": "Sophia Clark",
-      "phone": "+1 (012) 345-6789",
+      "phone": "+919328420044",
       "email": "sophiaclark@example.com",
       "source": "Manually Added",
       "status": "Contacted",
-      "notes": [],
-      "appointment": {
-        "date": "2025-01-19",
-        "time": "17:58",
-        "reason": "Follow-Up",
-        "id": "0893"
-      }
+      "id": "10"
     },
     {
       "id": "11",
@@ -358,6 +351,18 @@
       "email": "abc@abc.com",
       "source": "Instagram",
       "status": "Qualified"
+    },
+    {
+      "id": "a5dc",
+      "type": "all",
+      "postIds": []
+    },
+    {
+      "id": "7fee",
+      "type": "specific",
+      "postIds": [
+        "123"
+      ]
     }
   ],
   "CampaignManager": [
@@ -1128,43 +1133,44 @@
   ],
   "custom-scripts": [
     {
-      "id": 1,
+      "id": "1",
       "content": "Follow Up"
     },
     {
-      "id": 2,
+      "id": "2",
       "content": "Real Estate Appointment"
     },
     {
-      "id": 3,
+      "id": "3",
       "content": "Lead Outreach"
     }
   ],
   "predefined-scripts": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Log Hello World",
       "description": "A simple script that logs 'Hello World' to the console."
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Fetch Data from API",
       "description": "Fetches data from a given API endpoint and logs the result to the console."
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Greet User",
       "description": "Greets a user with a personalized message. Passes the user’s name as a parameter."
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Validate Email",
       "description": "Validates an email address using a regular expression."
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Sort Array",
       "description": "Sorts an array of numbers in ascending order."
     }
-  ]    
+  ],
+  "voice": "./static/voice.xml"
 }
