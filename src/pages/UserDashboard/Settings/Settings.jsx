@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Tabs, Card, Form, Input, Button, Switch, Upload, Select, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import ExotelSetup from "../../../components/UserDashboardComponents/ExotelSetup/ExotelSetup";
 // import "./Settings.css";
 
 const { TabPane } = Tabs;
@@ -38,9 +39,9 @@ const Settings = () => {
     };
 
     return (
-        <div className="settings-container">
+        <div className="settings-container p-6">
             <h2 className="settings-title">Settings</h2>
-            <Tabs defaultActiveKey="1" type="card">
+            <Tabs defaultActiveKey="1" size="large" type="card">
                 {/* Profile Settings */}
                 <TabPane tab="Profile" key="1">
                     <Card title="Profile Settings" bordered={false}>
@@ -158,6 +159,10 @@ const Settings = () => {
                             </Form.Item>
                         </Form>
                     </Card>
+                </TabPane>
+
+                <TabPane tab="Calling Integration" key="5">
+                    <ExotelSetup />
                 </TabPane>
             </Tabs>
         </div>

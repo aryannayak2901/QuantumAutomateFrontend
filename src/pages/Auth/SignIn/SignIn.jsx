@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import AuthLayout from '../AuthLayout/AuthLayout';
-import API from '../../../api';
+import { login } from '../../../services/authService';
+import { useAuth } from '../../../context/AuthContext';
 
 const SignIn = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -11,34 +12,30 @@ const SignIn = () => {
         password: '',
     });
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
-
-    // ✅ Redirect user to dashboard if already logged in
-    useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-            navigate('/dashboard');
-        }
-    }, [navigate]);
+    const { updateUser, authenticated } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
         setLoading(true);
-    
+
         try {
-            console.log("Form Data Sent:", formData);  // Log form data for debugging
-    
-            const response = await API.post('users/login/', formData);
+            console.log('Login attempt with:', { email: formData.email });
+            const response = await login({ email: formData.email, password: formData.password });
+            console.log('Login response:', response);
             
-            // Store tokens in localStorage
-            localStorage.setItem('accessToken', response.data.access);
-            localStorage.setItem('refreshToken', response.data.refresh);
-    
-            alert(response.data.message || 'Sign-in successful!');
-            navigate('/dashboard'); // Redirect after successful sign-in
-        } catch (error) {
-            console.error("Sign-in Error:", error.response?.data || error.message);
-            alert(error.response?.data?.error || 'Sign-in failed. Please check your credentials.');
+            // If we get here, login was successful
+            if (response.user) {
+                updateUser(response.user);
+            }
+            
+            // Redirect to dashboard or intended location
+            navigate('/dashboard');
+        } catch (err) {
+            console.error('Login error:', err);
+            setError(err.message || err.detail || 'Invalid credentials. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -50,43 +47,45 @@ const SignIn = () => {
     };
 
     return (
-        <AuthLayout title="Welcome back" subtitle="Sign in to your account">
+        <AuthLayout 
+            title="Welcome Back" 
+            subtitle="Sign in to your account"
+        >
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Email Input */}
+                {error && (
+                    <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+                        {error}
+                    </div>
+                )}
+
                 <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Email Address
+                    <label className="block text-sm font-medium text-gray-300">
+                        Email
                     </label>
                     <input
                         type="email"
-                        className="w-full px-4 py-3 bg-secondary-700/50 border border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white placeholder-gray-400"
-                        placeholder="you@example.com"
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className="mt-1 block w-full rounded-lg bg-secondary-700 border-transparent focus:border-primary-500 focus:bg-secondary-600 text-white"
                         required
                     />
                 </div>
 
-                {/* Password Input */}
                 <div>
-                    <div className="flex items-center justify-between mb-2">
-                        <label className="text-sm font-medium text-gray-300">Password</label>
-                        <Link to="/forgot-password" className="text-sm text-primary-400 hover:text-primary-300">
-                            Forgot password?
-                        </Link>
-                    </div>
-                    <div className="relative">
+                    <label className="block text-sm font-medium text-gray-300">
+                        Password
+                    </label>
+                    <div className="relative mt-1">
                         <input
-                            type={showPassword ? 'text' : 'password'}
-                            className="w-full px-4 py-3 bg-secondary-700/50 border border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white placeholder-gray-400"
-                            placeholder="••••••••"
+                            type={showPassword ? "text" : "password"}
                             value={formData.password}
-                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            onChange={(e) => setFormData({...formData, password: e.target.value})}
+                            className="block w-full rounded-lg bg-secondary-700 border-transparent focus:border-primary-500 focus:bg-secondary-600 text-white pr-10"
                             required
                         />
                         <button
                             type="button"
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-300"
                             onClick={() => setShowPassword(!showPassword)}
                         >
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -94,15 +93,27 @@ const SignIn = () => {
                     </div>
                 </div>
 
-                {/* Submit Button */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            className="rounded bg-secondary-700 border-transparent focus:ring-primary-500 text-primary-600"
+                        />
+                        <label className="ml-2 block text-sm text-gray-300">
+                            Remember me
+                        </label>
+                    </div>
+                    <Link to="/forgot-password" className="text-sm text-primary-400 hover:text-primary-300">
+                        Forgot password?
+                    </Link>
+                </div>
+
                 <button
                     type="submit"
-                    className={`w-full bg-primary-600 text-white py-3 px-4 rounded-lg font-semibold transition-colors duration-300 ${
-                        loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary-700'
-                    }`}
                     disabled={loading}
+                    className="w-full flex justify-center py-3 px-4 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
                 >
-                    {loading ? 'Signing In...' : 'Sign In'}
+                    {loading ? 'Signing in...' : 'Sign in'}
                 </button>
 
                 {/* Divider */}

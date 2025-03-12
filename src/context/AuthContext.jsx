@@ -1,87 +1,141 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getProfile, logout as authLogout } from '../services/authService';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    // Initialize state from localStorage immediately to prevent flash of unauthenticated state
+    const hasTokens = !!localStorage.getItem('accessToken') && !!localStorage.getItem('refreshToken');
+    const storedUserJSON = localStorage.getItem('user');
+    const initialUser = storedUserJSON ? JSON.parse(storedUserJSON) : null;
+    
+    const [user, setUser] = useState(initialUser);
     const [loading, setLoading] = useState(true);
+    const [authenticated, setAuthenticated] = useState(hasTokens);
 
-    useEffect(() => {
-        // Check for existing auth token and validate it
-        const token = localStorage.getItem('token');
-        if (token) {
-            // Validate token with your backend
-            validateToken(token);
-        } else {
-            setLoading(false);
-        }
-    }, []);
-
-    const validateToken = async (token) => {
-        try {
-            // Make API call to validate token
-            const response = await fetch('/api/validate-token', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (response.ok) {
-                const userData = await response.json();
-                setUser(userData);
-            } else {
-                // Token is invalid
-                localStorage.removeItem('token');
-                setUser(null);
-            }
-        } catch (error) {
-            console.error('Token validation error:', error);
-            localStorage.removeItem('token');
-            setUser(null);
-        } finally {
-            setLoading(false);
-        }
+    // Debug function to log auth state
+    const logAuthState = () => {
+        console.log('AuthContext State:', { 
+            authenticated, 
+            hasUser: !!user, 
+            loading,
+            accessToken: localStorage.getItem('accessToken')?.substring(0, 15) + '...' || null,
+            refreshToken: localStorage.getItem('refreshToken')?.substring(0, 15) + '...' || null
+        });
     };
 
-    const login = async (credentials) => {
-        try {
-            // Make API call to login
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(credentials)
-            });
-
-            if (response.ok) {
-                const { token, user: userData } = await response.json();
-                localStorage.setItem('token', token);
-                setUser(userData);
-                return { success: true };
-            } else {
-                const error = await response.json();
-                return { success: false, error: error.message };
+    // This effect runs once on component mount to validate and refresh auth state
+    useEffect(() => {
+        const initAuth = async () => {
+            try {
+                logAuthState();
+                
+                const accessToken = localStorage.getItem('accessToken');
+                const refreshToken = localStorage.getItem('refreshToken');
+                
+                if (!accessToken || !refreshToken) {
+                    console.log('No tokens found, setting unauthenticated state');
+                    setAuthenticated(false);
+                    setUser(null);
+                    setLoading(false);
+                    return;
+                }
+                
+                // Set authenticated based on token presence
+                console.log('Tokens found, setting authenticated state');
+                setAuthenticated(true);
+                
+                // If we already have user data from localStorage, use it
+                if (storedUserJSON) {
+                    console.log('Using cached user data from localStorage');
+                    setUser(JSON.parse(storedUserJSON));
+                    setLoading(false);
+                    
+                    // Try to get fresh profile data in the background, but don't block the UI
+                    fetchProfileInBackground();
+                    return;
+                }
+                
+                // Only if we don't have stored user data, try to fetch it and wait
+                try {
+                    console.log('Fetching profile to get initial user data...');
+                    const response = await getProfile();
+                    if (response && response.user) {
+                        console.log('Profile fetched successfully:', response.user);
+                        setUser(response.user);
+                        localStorage.setItem('user', JSON.stringify(response.user));
+                    } else {
+                        console.warn('Profile API returned unexpected format:', response);
+                    }
+                } catch (error) {
+                    // Just log the error - we're already authenticated based on tokens
+                    console.warn('Failed to fetch initial profile data:', error);
+                }
+            } catch (error) {
+                console.error('Auth initialization error:', error);
+            } finally {
+                setLoading(false);
+                logAuthState();
             }
-        } catch (error) {
-            console.error('Login error:', error);
-            return { success: false, error: 'An error occurred during login' };
+        };
+        
+        // Function to fetch profile in the background without blocking UI
+        const fetchProfileInBackground = async () => {
+            try {
+                console.log('Fetching updated profile data in background...');
+                const response = await getProfile();
+                if (response && response.user) {
+                    console.log('Background profile update successful:', response.user);
+                    setUser(response.user);
+                    localStorage.setItem('user', JSON.stringify(response.user));
+                }
+            } catch (error) {
+                console.warn('Background profile update failed, keeping cached data:', error);
+                // Don't change authenticated state - just keep using the cached data
+            }
+        };
+        
+        initAuth();
+    }, []);
+
+    const updateUser = (userData) => {
+        console.log('Updating user data:', userData);
+        setUser(userData);
+        setAuthenticated(!!userData);
+        if (userData) {
+            localStorage.setItem('user', JSON.stringify(userData));
+        } else {
+            localStorage.removeItem('user');
         }
+        logAuthState();
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
+        console.log('Logging out user');
+        // Call the logout function from authService
+        authLogout().catch(err => console.error('Logout error:', err));
+
+        // Clear local storage and state
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
         setUser(null);
+        setAuthenticated(false);
+        logAuthState();
     };
 
     const value = {
         user,
         loading,
-        login,
-        logout
+        authenticated,
+        updateUser,
+        logout,
+        setUser // Keep for backward compatibility with components
     };
 
-    if (loading) {
+    // Don't show loading spinner for authentication checks if we already have tokens
+    // This prevents the flash of loading screen on refresh for authenticated users
+    if (loading && !hasTokens) {
         return (
             <div className="min-h-screen bg-secondary-900 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-400 border-t-transparent"></div>

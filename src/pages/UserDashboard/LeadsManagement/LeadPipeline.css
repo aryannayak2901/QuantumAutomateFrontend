@@ -1,0 +1,318 @@
+/* LeadPipeline.css */
+
+.lead-pipeline-container {
+  padding: 24px;
+  background-color: #f0f2f5;
+  min-height: calc(100vh - 64px);
+}
+
+/* Pipeline Header */
+.pipeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.pipeline-title {
+  margin-bottom: 12px;
+}
+
+.pipeline-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.pipeline-search {
+  width: 240px;
+}
+
+/* Pipeline Content */
+.pipeline-content {
+  display: flex;
+  overflow-x: auto;
+  padding-bottom: 24px;
+  gap: 16px;
+  height: calc(100vh - 190px);
+}
+
+/* Stage Columns */
+.pipeline-stage {
+  min-width: 280px;
+  max-width: 280px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.stage-header {
+  padding: 12px 16px;
+  border-bottom: 2px solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+}
+
+.stage-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.stage-icon {
+  font-size: 16px;
+}
+
+.stage-name {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stage-count {
+  margin-left: 4px;
+}
+
+.stage-metrics {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stage-value {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.65);
+  white-space: nowrap;
+}
+
+.stage-content {
+  padding: 12px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 150px;
+  transition: background-color 0.2s ease;
+}
+
+.stage-content.is-over {
+  background-color: #f0f7ff;
+}
+
+.empty-stage {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-stage-content {
+  margin: 24px 0;
+  opacity: 0.6;
+}
+
+/* Lead Cards */
+.lead-card {
+  background-color: white;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: grab;
+}
+
+.lead-card.is-dragging {
+  transform: rotate(2deg) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  cursor: grabbing;
+}
+
+.lead-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.lead-name {
+  flex: 1;
+  margin-left: 8px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.lead-name:hover {
+  color: #1890ff;
+}
+
+.lead-options-btn {
+  opacity: 0.5;
+}
+
+.lead-options-btn:hover {
+  opacity: 1;
+}
+
+.lead-details {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.lead-company {
+  margin-bottom: 4px;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lead-contact {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.lead-icon {
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.lead-value {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.lead-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lead-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.lead-lastupdate {
+  font-size: 11px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+/* Loading container */
+.loading-container {
+  height: calc(100vh - 180px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-text {
+  margin-top: 16px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* Lead Details Drawer */
+.lead-details-drawer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.lead-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.lead-avatar {
+  margin-right: 16px;
+  background-color: #1890ff;
+}
+
+.lead-info {
+  flex: 1;
+}
+
+.lead-contact-details {
+  margin-bottom: 24px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.contact-icon {
+  margin-right: 12px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.lead-notes {
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.lead-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+/* Pipeline Settings */
+.stage-setting-item {
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  border: 1px dashed #d9d9d9;
+  background-color: #fafafa;
+}
+
+.drag-handle {
+  cursor: move;
+  padding: 0 8px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pipeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .pipeline-actions {
+    margin-top: 16px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .pipeline-search {
+    width: 100%;
+  }
+  
+  .lead-card {
+    padding: 8px;
+  }
+} 

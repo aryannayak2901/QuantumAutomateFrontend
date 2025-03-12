@@ -1,5 +1,4 @@
 import React from 'react'
-import LearnMoreButton from '../Buttons/LearnMoreButton/LearnMoreButton'
 import { Zap, Users, BarChart3 } from 'lucide-react'
 
 const FeatureSection = () => {
@@ -53,7 +52,9 @@ const FeatureSection = () => {
                 </div>
 
                 <div className="text-center mt-12">
-                    <LearnMoreButton />
+                    <a href="/about" className="inline-flex items-center text-sm font-semibold leading-6 text-white hover:text-primary-400 transition-all">
+                        Learn more <span aria-hidden="true" className="ml-1">→</span>
+                    </a>
                 </div>
             </div>
         </section>

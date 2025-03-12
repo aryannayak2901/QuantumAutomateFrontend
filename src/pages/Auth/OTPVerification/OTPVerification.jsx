@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthLayout from '../AuthLayout/AuthLayout';
-import API from '../../../api';
+import { verifyEmail, resendVerification } from '../../../services/authService';
 
 const OTPVerification = () => {
     const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -11,6 +11,13 @@ const OTPVerification = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const email = location.state?.email;
+
+    useEffect(() => {
+        if (!email) {
+            alert("No email information found. Please go back to registration.");
+            navigate('/register');
+        }
+    }, [email, navigate]);
 
     useEffect(() => {
         if (timeLeft > 0) {
@@ -41,37 +48,48 @@ const OTPVerification = () => {
         const enteredOtp = otp.join(''); // Join the OTP digits
 
         try {
-            const response = await API.post('users/verify-otp/', {
-                email,
-                otp: enteredOtp,
-                password: location.state?.password, // Include the password for verification
-            });
-
-            // ✅ Store tokens in localStorage
-            localStorage.setItem('accessToken', response.data.access);
-            localStorage.setItem('refreshToken', response.data.refresh);
-
-            alert(response.data.message || 'OTP verified successfully!');
+            // Use the authService verifyEmail function with correct parameters
+            const response = await verifyEmail(email, enteredOtp);
+            
+            // Store tokens if they are returned
+            if (response.tokens) {
+                localStorage.setItem('token', response.tokens.access);
+                localStorage.setItem('refreshToken', response.tokens.refresh);
+            }
+            
+            alert(response.message || 'Email verified successfully!');
             navigate('/dashboard');
         } catch (error) {
-            console.error("OTP Verification Error:", error.response?.data?.error || error.message);
-            alert(error.response?.data?.error || 'OTP verification failed');
+            console.error("Email Verification Error:", error);
+            
+            let errorMessage = 'Verification failed. Please check your OTP code.';
+            if (typeof error === 'object') {
+                if (error.error) errorMessage = error.error;
+                else if (error.message) errorMessage = error.message;
+            }
+            
+            alert(errorMessage);
         }
     };
-
-
-
 
     const handleResendOTP = async () => {
         setTimeLeft(30);
         setCanResend(false);
 
         try {
-            const response = await API.post('users/resend-otp/', { email });
-            alert(response.data.message || 'OTP resent successfully');
+            // Use the authService resendVerification function
+            const response = await resendVerification(email);
+            alert(response.message || 'Verification code resent successfully');
         } catch (error) {
-            console.error("Resend OTP Error:", error.response?.data?.error || error.message);
-            alert(error.response?.data?.error || 'Failed to resend OTP');
+            console.error("Resend Verification Error:", error);
+            
+            let errorMessage = 'Failed to resend verification code';
+            if (typeof error === 'object') {
+                if (error.error) errorMessage = error.error;
+                else if (error.message) errorMessage = error.message;
+            }
+            
+            alert(errorMessage);
         }
     };
 

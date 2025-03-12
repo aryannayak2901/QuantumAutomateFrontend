@@ -1,26 +1,22 @@
-import HeaderSection from "./HeaderSection/HeaderSection";
 import HeroSection from "./HeroSection/HeroSection";
 import FeatureSection from './FeatureSection/FeatureSection';
-import GetStartedButton from "./Buttons/GetStartedButton/GetStartedButton";
-import LearnMoreButton from "./Buttons/LearnMoreButton/LearnMoreButton";
 import VerticalTimeLineSection from "./VerticalTimeLineSection/VerticalTimeLineSection";
-import CallToActionSection from "./CallToActionSection/CallToActionSection";
-import FooterSection from "./FooterSection/FooterSection";
 import SetAppointmentModal from "./UserDashboardComponents/SetAppointmentModal/SetAppointmentModal";
 import EditAppointmentModal from "./UserDashboardComponents/EditAppointmentModal/EditAppointmentModal";
-import { DMStatusDashboard, ActivityFeed } from "./UserDashboardComponents";
+import DMStatusDashboard from "./UserDashboardComponents/DMStatusDashboard/DMStatusDashboard";
+import ActivityFeed from "./UserDashboardComponents/ActivityFeed/ActivityFeed";
+import { AICallingDashboard } from "./UserDashboardComponents";
+import { CallLogs, CallAnalytics } from "./calling";
 
 export {
-    HeaderSection,
     HeroSection,
     FeatureSection,
-    GetStartedButton,
-    LearnMoreButton,
     VerticalTimeLineSection,
-    CallToActionSection,
-    FooterSection,
     SetAppointmentModal,
     EditAppointmentModal,
     DMStatusDashboard,
-    ActivityFeed
+    ActivityFeed,
+    AICallingDashboard,
+    CallLogs,
+    CallAnalytics
 }

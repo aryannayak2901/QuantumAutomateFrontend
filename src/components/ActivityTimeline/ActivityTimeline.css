@@ -1,0 +1,58 @@
+.activity-timeline-card {
+  margin-bottom: 24px;
+}
+
+.activity-timeline-card .ant-timeline {
+  padding: 16px 0;
+}
+
+.activity-timeline-card .ant-timeline-item {
+  padding-bottom: 24px;
+}
+
+.activity-timeline-card .ant-timeline-item-content {
+  margin-left: 28px;
+}
+
+.activity-timeline-card .ant-timeline-item-head {
+  font-size: 16px;
+}
+
+.activity-timeline-card .ant-card-head-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.activity-item-content {
+  background: #fafafa;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
+.activity-item-content:hover {
+  background: #f0f0f0;
+}
+
+.activity-meta {
+  margin-top: 8px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px;
+}
+
+.activity-action-button {
+  padding: 0;
+  height: auto;
+  line-height: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .activity-timeline-card .ant-timeline-item-content {
+    margin-left: 18px;
+  }
+  
+  .activity-timeline-card .ant-card-head-title {
+    font-size: 14px;
+  }
+} 

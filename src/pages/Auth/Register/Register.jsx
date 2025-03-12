@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Facebook } from 'lucide-react';
 import AuthLayout from '../AuthLayout/AuthLayout';
-import API from '../../../api';
-import axios from 'axios';
+import { signup } from '../../../services/authService';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -14,59 +13,62 @@ const Register = () => {
         password: '',
         confirmPassword: ''
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    const navigate = useNavigate(); // Initialize navigate
-
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError("");
+        setIsLoading(true);
 
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match.");
+            setIsLoading(false);
             return;
         }
 
         try {
-            const response = await API.post('users/register/', {
-                fullName: formData.fullName,
-                email: formData.email,
-                password: formData.password,
+            console.log("Submitting registration data:", formData);
+            const response = await signup(formData);
+            console.log("Registration successful:", response);
+            
+            // The backend has accepted the registration and sent an OTP
+            // Navigate to the OTP verification page - use the correct route
+            navigate('/verify-otp', { 
+                state: { email: formData.email },
+                replace: true // Replace current history entry to prevent back navigation to registration
             });
-
-            alert(response.data.message);
-
-            // ✅ Pass email and password to OTP page
-            navigate('/verify-otp', { state: { email: formData.email, password: formData.password } });
-        } catch (error) {
-            console.error("Registration Error:", error.response?.data);
-            alert(error.response?.data?.error || "Registration failed");
+        } catch (err) {
+            console.error("Registration Error:", err);
+            setError(err.message || err.detail || "Registration failed. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
-
-
-
-
 
     const handleFacebookLogin = async () => {
         try {
             // This will get the token from Facebook SDK or similar implementation
             const accessToken = "YOUR_FACEBOOK_ACCESS_TOKEN"; // Use the real token obtained after FB OAuth
 
-            const response = await API.post('facebook/login/', {
-                access_token: accessToken,
-            });
+            // Import correctly from authService instead of using API
+            const response = await import('../../../services/authService')
+                .then(module => module.facebookLogin(accessToken));
 
-            // Store the tokens
-            localStorage.setItem('accessToken', response.data.access);
-            localStorage.setItem('refreshToken', response.data.refresh);
+            // Store the tokens correctly
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('refreshToken', response.refresh);
+            localStorage.setItem('user', JSON.stringify(response.user));
 
             alert("Facebook login successful");
+            navigate('/dashboard');
         } catch (error) {
-            console.error("Facebook Login Error:", error.response?.data?.error || error.message);
-            alert(error.response?.data?.error || "Facebook login failed");
+            console.error("Facebook Login Error:", error);
+            alert(error.message || "Facebook login failed");
         }
     };
-
 
     return (
         <AuthLayout
@@ -156,8 +158,9 @@ const Register = () => {
                 <button
                     type="submit"
                     className="w-full bg-primary-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-300"
+                    disabled={isLoading}
                 >
-                    Create Account
+                    {isLoading ? 'Creating Account...' : 'Create Account'}
                 </button>
 
                 {/* Divider */}

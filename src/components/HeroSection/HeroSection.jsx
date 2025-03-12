@@ -1,6 +1,4 @@
 import React from 'react'
-import GetStartedButton from '../Buttons/GetStartedButton/GetStartedButton'
-import LearnMoreButton from '../Buttons/LearnMoreButton/LearnMoreButton'
 
 const HeroSection = () => {
     return (
@@ -17,8 +15,12 @@ const HeroSection = () => {
                         From lead extraction to AI-driven calls and actionable analytics—streamline your business with our cutting-edge tools.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
-                        <GetStartedButton />
-                        <LearnMoreButton />
+                        <a href="/register" className="rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-all">
+                            Get Started
+                        </a>
+                        <a href="/about" className="text-sm font-semibold leading-6 text-white hover:text-primary-400 transition-all">
+                            Learn more <span aria-hidden="true">→</span>
+                        </a>
                     </div>
                 </div>
             </div>
