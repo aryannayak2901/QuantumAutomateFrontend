@@ -1,34 +1,32 @@
 import API from '../api';
 
 const ExotelService = {
+    enableExotel: async () => {
+        try {
+            const response = await API.post('users/exotel/enable/');
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Failed to enable Exotel');
+        }
+    },
+
+    disableExotel: async () => {
+        try {
+            const response = await API.post('users/exotel/disable/');
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Failed to disable Exotel');
+        }
+    },
+
     getStatus: async () => {
         try {
             const response = await API.get('users/exotel-status/');
             return response.data;
         } catch (error) {
-            throw new Error(error.response?.data?.error || 'Failed to get Exotel status');
-        }
-    },
-
-    createSubaccount: async () => {
-        try {
-            const response = await API.post('users/create-exotel-subaccount/', {});
-            return response.data;
-        } catch (error) {
-            throw new Error(error.response?.data?.error || 'Failed to create Exotel subaccount');
-        }
-    },
-
-    verifyPhone: async (phoneNumber) => {
-        try {
-            const response = await API.post('users/verify-phone/', {
-                phone_number: phoneNumber
-            });
-            return response.data;
-        } catch (error) {
-            throw new Error(error.response?.data?.error || 'Failed to verify phone number');
+            throw new Error(error.response?.data?.message || 'Failed to get Exotel status');
         }
     }
 };
 
-export default ExotelService; 
+export default ExotelService;

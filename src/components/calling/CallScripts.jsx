@@ -13,7 +13,7 @@ import {
     DialogContent, 
     DialogActions 
 } from '@mui/material';
-import AICallingService from '../../services/aiCallingService';
+// import AICallingService from '../../services/aiCallingService';
 import { AntDesignWrapper } from '../calling';
 
 const CallScripts = () => {

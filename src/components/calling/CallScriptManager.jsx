@@ -29,72 +29,24 @@ import {
     PhoneOutlined,
     InfoCircleOutlined
 } from '@ant-design/icons';
-import AICallingService from '../../services/aiCallingService';
+// import AICallingService from '../../services/aiCallingService';
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
-const industryTemplates = {
-    "real_estate": {
-        name: "Real Estate Appointment Scheduler",
-        greeting: "Hello, I'm calling on behalf of [AGENT_NAME] from [COMPANY]. I'm following up about your interest in properties in the [AREA] area. Is this a good time to talk?",
-        purpose: "I'd like to discuss your property requirements and potentially schedule a viewing appointment.",
-        questions: [
-            "What type of property are you looking for?",
-            "How many bedrooms do you need?",
-            "What's your budget range?",
-            "Are there specific neighborhoods you're interested in?",
-            "When would be a good time for you to view properties?"
-        ],
-        closing: "Great! I've scheduled your viewing appointment for [DATE] at [TIME]. You'll receive a confirmation email shortly. Looking forward to helping you find your dream home."
-    },
-    "healthcare": {
-        name: "Healthcare Appointment Reminder",
-        greeting: "Hello, I'm calling from [CLINIC_NAME] regarding your upcoming appointment. Is this [PATIENT_NAME]?",
-        purpose: "I'm calling to confirm your appointment with Dr. [DOCTOR_NAME] on [DATE] at [TIME].",
-        questions: [
-            "Will you be able to make this appointment?",
-            "Do you need any special accommodations for your visit?",
-            "Do you have any questions about preparing for this appointment?",
-            "Would you like me to send you a reminder email with pre-appointment instructions?"
-        ],
-        closing: "Perfect! Your appointment is confirmed for [DATE] at [TIME]. Please arrive 15 minutes early to complete any necessary paperwork. We look forward to seeing you then."
-    },
-    "sales": {
-        name: "Product Demo Scheduler",
-        greeting: "Hello, this is [NAME] from [COMPANY]. I understand you recently showed interest in our [PRODUCT]. Do you have a moment to talk?",
-        purpose: "I'd like to understand your needs better and possibly arrange a personalized product demonstration.",
-        questions: [
-            "What challenges are you currently facing that led you to look at our solution?",
-            "How many people in your organization would be using this product?",
-            "Have you tried similar products before?",
-            "What's your timeline for implementing a solution?",
-            "Would you be interested in a personalized demonstration of how our product can address your specific needs?"
-        ],
-        closing: "Excellent! I've scheduled a product demonstration for [DATE] at [TIME]. You'll receive a calendar invitation with the meeting details. I'm looking forward to showing you how our solution can help your business grow."
-    },
-    "customer_service": {
-        name: "Customer Feedback Collector",
-        greeting: "Hello, I'm calling from [COMPANY] customer success team. I'm reaching out to valued customers like you to collect feedback. Do you have a few minutes to share your thoughts?",
-        purpose: "We're always looking to improve our service, and your feedback is incredibly valuable to us.",
-        questions: [
-            "On a scale of 1-10, how satisfied are you with our product/service?",
-            "What do you like most about working with us?",
-            "Is there anything we could improve about our product or service?",
-            "How responsive has our support team been to your needs?",
-            "Would you recommend our product/service to others in your industry?"
-        ],
-        closing: "Thank you so much for your valuable feedback. We'll use this information to improve our offerings. As a token of our appreciation, we'll be sending you a small gift card. Is your email [EMAIL] still correct for us to send it to?"
-    },
-    "custom": {
-        name: "Custom Script",
+const defaultScript = {
+    name: "New Script",
+    industry: "",
+    description: "",
+    script_content: {
         greeting: "Hello, this is [NAME] from [COMPANY].",
         purpose: "I'm calling about [PURPOSE].",
         questions: ["[ADD_YOUR_QUESTIONS_HERE]"],
         closing: "Thank you for your time. [CLOSING_MESSAGE]"
-    }
+    },
+    is_active: true
 };
 
 const CallScriptManager = () => {

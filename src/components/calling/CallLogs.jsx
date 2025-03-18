@@ -32,7 +32,7 @@ import {
   MessageSquare, 
   Lightbulb 
 } from 'lucide-react';
-import AICallingService from '../../services/aiCallingService';
+// import AICallingService from '../../services/aiCallingService';
 
 const CallStatusChip = ({ status }) => {
   let color = "default";
@@ -229,28 +229,28 @@ const CallLogs = () => {
                             </Tooltip>
                           )}
                         </TableCell>
-                        <TableCell>{call.phoneNumber}</TableCell>
-                        <TableCell>{formatDate(call.timestamp)}</TableCell>
+                        <TableCell>{call.lead_phone}</TableCell>
+                        <TableCell>{formatDate(call.call_start_time)}</TableCell>
                         <TableCell>{formatDuration(call.duration)}</TableCell>
                         <TableCell>
                           <CallStatusChip status={call.status} />
                         </TableCell>
                         <TableCell>
-                          {call.recordingUrl && (
+                          {call.recording_url && (
                             <Tooltip title="Play Recording">
-                              <IconButton onClick={() => window.open(call.recordingUrl)}>
+                              <IconButton onClick={() => window.open(call.recording_url)}>
                                 <PlayCircle size={20} />
                               </IconButton>
                             </Tooltip>
                           )}
-                          {call.hasTranscript && (
+                          {call.has_transcription && (
                             <Tooltip title="View Transcript">
                               <IconButton onClick={() => handleViewTranscript(call.id)}>
                                 <MessageSquare size={20} />
                               </IconButton>
                             </Tooltip>
                           )}
-                          {call.hasInsights && (
+                          {call.has_insights && (
                             <Tooltip title="View AI Insights">
                               <IconButton onClick={() => handleViewInsights(call.id)}>
                                 <Lightbulb size={20} />
@@ -286,7 +286,7 @@ const CallLogs = () => {
         <DialogTitle>
           Call Transcript
           <Typography variant="subtitle2" color="text.secondary">
-            {selectedCall?.phoneNumber} - {selectedCall?.timestamp && formatDate(selectedCall.timestamp)}
+            {selectedCall?.lead_phone} - {selectedCall?.call_start_time && formatDate(selectedCall.call_start_time)}
           </Typography>
         </DialogTitle>
         <DialogContent dividers>
@@ -333,7 +333,7 @@ const CallLogs = () => {
         <DialogTitle>
           AI Call Insights
           <Typography variant="subtitle2" color="text.secondary">
-            {selectedCall?.phoneNumber} - {selectedCall?.timestamp && formatDate(selectedCall.timestamp)}
+            {selectedCall?.lead_phone} - {selectedCall?.call_start_time && formatDate(selectedCall.call_start_time)}
           </Typography>
         </DialogTitle>
         <DialogContent dividers>

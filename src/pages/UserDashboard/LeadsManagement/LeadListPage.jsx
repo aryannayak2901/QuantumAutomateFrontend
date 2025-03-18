@@ -129,7 +129,7 @@ const LeadListPage = () => {
     setLoading(true);
     try {
       // Get leads data from API
-      const response = await axios.get('http://localhost:8000/api/crm/leads/', {
+      const response = await axios.get('http://localhost:8000/api/leads/', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         },
@@ -726,4 +726,4 @@ const LeadListPage = () => {
   );
 };
 
-export default LeadListPage; 
+export default LeadListPage;

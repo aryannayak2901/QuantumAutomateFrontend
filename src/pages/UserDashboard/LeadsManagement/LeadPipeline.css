@@ -103,6 +103,7 @@
 
 .stage-content.is-over {
   background-color: #f0f7ff;
+  border: 1px dashed #1890ff;
 }
 
 .empty-stage {
@@ -127,12 +128,15 @@
   border-left: 4px solid;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: grab;
+  user-select: none;
 }
 
 .lead-card.is-dragging {
   transform: rotate(2deg) scale(1.02);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   cursor: grabbing;
+  opacity: 0.9;
+  z-index: 999;
 }
 
 .lead-card-header {
@@ -315,4 +319,20 @@
   .lead-card {
     padding: 8px;
   }
-} 
+}
+
+
+/* Drag and Drop Styles */
+body.dragging-active {
+  cursor: grabbing;
+  user-select: none;
+}
+
+body.dragging-active .lead-card:not(.is-dragging) {
+  transition: transform 0.2s ease;
+}
+
+body.dragging-active .stage-content.is-over {
+  background-color: #f0f7ff;
+  border: 1px dashed #1890ff;
+}

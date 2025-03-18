@@ -4,7 +4,7 @@ import Homepage from './components/home/Homepage';
 import UserDashboard from './components/dashboard/UserDashboard';
 import InstagramDashboard from './components/instagram/InstagramDashboard';
 import DMAutomation from './components/instagram/DMAutomation';
-import CallAgent from './components/calling/CallAgent';
+// import CallAgent from './components/calling/CallAgent';
 import AICallingDashboard from './components/UserDashboardComponents/AICallingDashboard';
 import { CallScripts } from './components/calling';
 import Settings from './components/settings/Settings';
@@ -272,13 +272,13 @@ const App = () => {
                     </ProtectedRoute>
                 } />
                 
-                <Route path="/calling/agent" element={
+                {/* <Route path="/calling/agent" element={
                     <ProtectedRoute>
                         <DashboardLayout>
                             <CallAgent />
                         </DashboardLayout>
                     </ProtectedRoute>
-                } />
+                } /> */}
                 
                 <Route path="/calling/scripts" element={
                     <ProtectedRoute>

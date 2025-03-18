@@ -24,8 +24,8 @@ import {
     Divider
 } from '@mui/material';
 import { Phone, BarChart2, List, FileText, MessageSquare, RefreshCw, Calendar, Settings } from 'lucide-react';
-import AICallingService from '../../services/aiCallingService';
-import { CallLogs, CallAnalytics, TranscriptionDetail, AntDesignWrapper, CallAgent } from '../calling';
+// import AICallingService from '../../services/aiCallingService';
+import { CallLogs, CallAnalytics, TranscriptionDetail, AntDesignWrapper } from '../calling';
 import PhoneNumberManager from '../calling/PhoneNumberManager';
 import CallScriptManager from '../calling/CallScriptManager';
 import CallScheduler from '../calling/CallScheduler';

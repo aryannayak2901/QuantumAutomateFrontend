@@ -11,7 +11,9 @@ const Register = () => {
         fullName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        business_type: 'ecommerce',
+        phone: ''
     });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -152,6 +154,38 @@ const Register = () => {
                             {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                     </div>
+                </div>
+
+                {/* Phone Input */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Phone Number
+                    </label>
+                    <input
+                        type="tel"
+                        className="w-full px-4 py-3 bg-secondary-700/50 border border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white placeholder-gray-400"
+                        placeholder="+1234567890"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    />
+                </div>
+
+                {/* Business Type Input */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Business Type
+                    </label>
+                    <select
+                        className="w-full px-4 py-3 bg-secondary-700/50 border border-secondary-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-white placeholder-gray-400"
+                        value={formData.business_type}
+                        onChange={(e) => setFormData({ ...formData, business_type: e.target.value })}
+                    >
+                        <option value="ecommerce">E-commerce</option>
+                        <option value="service">Service Business</option>
+                        <option value="retail">Retail</option>
+                        <option value="saas">SaaS</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
 
                 {/* Submit Button */}

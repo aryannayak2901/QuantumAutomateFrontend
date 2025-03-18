@@ -27,7 +27,7 @@ import {
   Lightbulb,
   Bookmark 
 } from 'lucide-react';
-import AICallingService from '../../services/aiCallingService';
+// import AICallingService from '../../services/aiCallingService';
 import useCallWebSocket from '../../hooks/useCallWebSocket';
 
 const TranscriptionDetail = ({ callId, onClose }) => {

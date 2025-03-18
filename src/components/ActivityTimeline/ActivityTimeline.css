@@ -1,37 +1,136 @@
+/* ActivityTimeline animations and styles */
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Timeline Card Styles */
 .activity-timeline-card {
   margin-bottom: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.activity-timeline-card:hover {
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.activity-timeline-card .ant-card-head {
+  background: linear-gradient(135deg, #f0f4ff 0%, #eef2ff 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.activity-timeline-card .ant-card-head-title {
+  font-size: 18px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #3182ce 0%, #6b46c1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .activity-timeline-card .ant-timeline {
   padding: 16px 0;
 }
 
+/* Timeline Items */
 .activity-timeline-card .ant-timeline-item {
   padding-bottom: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.activity-timeline-card .ant-timeline-item:nth-child(odd) {
+  animation: slideInFromLeft 0.5s ease-out;
+}
+
+.activity-timeline-card .ant-timeline-item:nth-child(even) {
+  animation: slideInFromRight 0.5s ease-out;
 }
 
 .activity-timeline-card .ant-timeline-item-content {
   margin-left: 28px;
+  transition: all 0.3s ease;
+}
+
+.activity-timeline-card .ant-timeline-item:hover .ant-timeline-item-content {
+  transform: translateX(5px);
 }
 
 .activity-timeline-card .ant-timeline-item-head {
   font-size: 16px;
+  transition: all 0.3s ease;
 }
 
-.activity-timeline-card .ant-card-head-title {
-  font-size: 16px;
-  font-weight: 600;
+.activity-timeline-card .ant-timeline-item:hover .ant-timeline-item-head {
+  transform: scale(1.2);
 }
 
+/* Activity Content */
 .activity-item-content {
-  background: #fafafa;
-  padding: 12px;
-  border-radius: 4px;
+  background: rgba(250, 250, 250, 0.8);
+  padding: 16px;
+  border-radius: 8px;
   margin-top: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
 .activity-item-content:hover {
-  background: #f0f0f0;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.08);
 }
 
 .activity-meta {
@@ -44,9 +143,63 @@
   padding: 0;
   height: auto;
   line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.activity-action-button:hover {
+  transform: scale(1.05);
+}
+
+/* Tag styles */
+.activity-timeline-card .ant-tag {
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.activity-timeline-card .ant-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Staggered animations */
+.activity-timeline-card .ant-timeline-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.activity-timeline-card .ant-timeline-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.activity-timeline-card .ant-timeline-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.activity-timeline-card .ant-timeline-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.activity-timeline-card .ant-timeline-item:nth-child(5) {
+  animation-delay: 0.5s;
 }
 
 /* Responsive adjustments */
+@media (max-width: 768px) {
+  .activity-timeline-card .ant-timeline-item-content {
+    margin-left: 24px;
+  }
+  
+  .activity-timeline-card .ant-card-head-title {
+    font-size: 16px;
+  }
+  
+  .activity-item-content {
+    padding: 12px;
+  }
+}
+
 @media (max-width: 576px) {
   .activity-timeline-card .ant-timeline-item-content {
     margin-left: 18px;
@@ -55,4 +208,8 @@
   .activity-timeline-card .ant-card-head-title {
     font-size: 14px;
   }
-} 
+  
+  .activity-item-content {
+    padding: 10px;
+  }
+}

@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import useCallWebSocket from '../../hooks/useCallWebSocket';
 import callAgentApiAdapter from '../../services/callAgentApiAdapter';
-import CallAgent from './CallAgent';
+// import CallAgent from './CallAgent';
 import AntDesignWrapper from './AntDesignWrapper';
 
 /**

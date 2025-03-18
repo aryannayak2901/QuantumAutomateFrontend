@@ -5,39 +5,41 @@
  * and the Ant Design-based CallAgent component, which expects different API endpoints.
  */
 
-import AICallingService from './aiCallingService';
+// import AICallingService from './aiCallingService';
 
 class CallAgentApiAdapter {
   /**
-   * Maps the campaign parameter and fetches calls
+   * Maps the campaign parameter and fetches call sessions
    */
   async fetchCalls(campaignId = null) {
     try {
-      // We'll use the existing getCallLogs method but add filtering if needed
-      const response = await AICallingService.getCallLogs();
-      let calls = response.calls || [];
+      // Get call sessions from the backend
+      const calls = await AICallingService.getCallSessions();
       
       // Apply campaign filter if provided
+      let filteredCalls = calls;
       if (campaignId) {
-        calls = calls.filter(call => call.campaign_id === campaignId);
+        filteredCalls = calls.filter(call => call.call_data?.campaign_id === campaignId);
       }
       
-      // Transform the data format if needed to match what CallAgent expects
-      return calls.map(call => ({
+      // Transform the data format to match what CallAgent expects
+      return filteredCalls.map(call => ({
         id: call.id,
         call_sid: call.call_sid,
-        phone_number: call.lead_phone,
+        lead_id: call.lead_id,
+        script_id: call.script?.id,
+        script_name: call.script?.name,
         status: call.status,
-        direction: call.direction,
         duration: call.duration,
         recording_url: call.recording_url,
-        call_start_time: call.call_start_time,
-        call_end_time: call.call_end_time,
-        created_at: call.created_at,
-        has_transcription: call.has_transcription,
-        has_insights: call.has_insights,
-        notes: call.notes
-      }));
+        started_at: call.started_at,
+        ended_at: call.ended_at,
+        appointment_scheduled: call.appointment_scheduled,
+        appointment_datetime: call.appointment_datetime,
+        call_data: call.call_data,
+        transcript: call.transcript,
+        created_at: call.started_at
+      }))
     } catch (error) {
       console.error('Error in fetchCalls adapter:', error);
       throw error;

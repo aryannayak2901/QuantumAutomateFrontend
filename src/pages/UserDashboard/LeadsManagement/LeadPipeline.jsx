@@ -192,6 +192,9 @@ const LeadPipeline = () => {
   
   // Handle stage change when a lead is dragged
   const handleDragEnd = async (result) => {
+    // Remove dragging class when drag ends
+    document.body.classList.remove('dragging-active');
+    
     const { source, destination, draggableId } = result;
     
     // Dropped outside of any droppable area
@@ -350,19 +353,20 @@ const LeadPipeline = () => {
     const stageInfo = stageSettings.find(stage => stage.id === lead.status) || LEAD_STAGES[0];
     
     return (
-      <Draggable draggableId={lead.id.toString()} index={index} key={lead.id}>
+      <Draggable draggableId={String(lead.id)} index={index} key={lead.id}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}
-            {...provided.dragHandleProps}
             className={`lead-card ${snapshot.isDragging ? 'is-dragging' : ''}`}
             style={{
               ...provided.draggableProps.style,
-              borderLeft: `4px solid ${stageInfo.color}`
+              borderLeft: `4px solid ${stageInfo.color}`,
+              opacity: snapshot.isDragging ? 0.8 : 1,
+              transform: snapshot.isDragging ? `${provided.draggableProps.style.transform} rotate(3deg)` : provided.draggableProps.style.transform
             }}
           >
-            <div className="lead-card-header">
+            <div className="lead-card-header" {...provided.dragHandleProps}>
               <Avatar size="small" icon={<UserOutlined />} />
               <div className="lead-name" onClick={() => handleLeadClick(lead)}>
                 {lead.name}
@@ -570,7 +574,13 @@ const LeadPipeline = () => {
           <Text className="loading-text">Loading leads...</Text>
         </div>
       ) : (
-        <DragDropContext onDragEnd={handleDragEnd}>
+        <DragDropContext 
+          onDragStart={() => {
+            // Add dragging class to body when drag starts
+            document.body.classList.add('dragging-active');
+          }} 
+          onDragEnd={handleDragEnd}
+        >
           <div className="pipeline-content">
             {stageSettings.map(stage => 
               renderStage(
@@ -867,4 +877,4 @@ const LeadPipeline = () => {
   );
 };
 
-export default LeadPipeline; 
+export default LeadPipeline;

@@ -1,5 +1,3 @@
-import HeroSection from "./HeroSection/HeroSection";
-import FeatureSection from './FeatureSection/FeatureSection';
 import VerticalTimeLineSection from "./VerticalTimeLineSection/VerticalTimeLineSection";
 import SetAppointmentModal from "./UserDashboardComponents/SetAppointmentModal/SetAppointmentModal";
 import EditAppointmentModal from "./UserDashboardComponents/EditAppointmentModal/EditAppointmentModal";
@@ -9,8 +7,6 @@ import { AICallingDashboard } from "./UserDashboardComponents";
 import { CallLogs, CallAnalytics } from "./calling";
 
 export {
-    HeroSection,
-    FeatureSection,
     VerticalTimeLineSection,
     SetAppointmentModal,
     EditAppointmentModal,

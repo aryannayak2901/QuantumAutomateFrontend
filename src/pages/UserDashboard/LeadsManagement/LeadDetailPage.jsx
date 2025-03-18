@@ -111,7 +111,7 @@ const LeadDetailPage = () => {
   const fetchLeadData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/leads/${id}/`);
+      const response = await axios.get(`http://localhost:8000/api/leads/${id}/`);
       setLead(response.data);
     } catch (error) {
       setError('Failed to fetch lead data. Please try again later.');
@@ -124,7 +124,7 @@ const LeadDetailPage = () => {
   const fetchLeadActivities = async () => {
     try {
       setActivitiesLoading(true);
-      const response = await axios.get(`/api/leads/${id}/activities/`);
+      const response = await axios.get(`http://localhost:8000/api/leads/${id}/custom-activities/`);
       setActivities(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       setError('Failed to fetch lead activities. Please try again later.');
@@ -139,11 +139,38 @@ const LeadDetailPage = () => {
     fetchLeadActivities(activitiesPage + 1);
   };
 
+  const handleUpdateStatus = async (newStatus) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/leads/${id}/`,
+        {
+          ...lead,
+          status: newStatus
+        }
+      );
+      
+      // Update local state
+      setLead({
+        ...lead,
+        status: newStatus
+      });
+      
+      // Show success message
+      message.success(`Lead status updated to ${newStatus}`);
+      
+      // Add to activity timeline
+      fetchLeadActivities();
+    } catch (error) {
+      console.error('Error updating lead status:', error);
+      message.error('Failed to update lead status');
+    }
+  };
+
   const handleEditLead = (values) => {
     setLoading(true);
     
     axios
-      .put(`http://localhost:8000/api/leads/${id}`, values)
+      .put(`http://localhost:8000/api/leads/${id}/`, values)
       .then(() => {
         message.success('Lead updated successfully!');
         fetchLeadData();
@@ -164,15 +191,21 @@ const LeadDetailPage = () => {
       return;
     }
     
+    // Create a new note object with content and timestamp
+    const newNoteObj = {
+      content: newNote.trim(),
+      timestamp: new Date().toISOString()
+    };
+    
     const updatedNotes = [
       ...(lead.notes || []),
-      newNote.trim()
+      newNoteObj
     ];
     
     try {
-      // Update in backend
-      await axios.put(`http://localhost:8000/api/leads/${id}`, {
-        ...lead,
+      // Only send the notes field to update, not the entire lead object
+      // This prevents potential validation issues with other fields
+      await axios.put(`http://localhost:8000/api/leads/${id}/`, {
         notes: updatedNotes
       });
       
@@ -203,9 +236,8 @@ const LeadDetailPage = () => {
     updatedNotes.splice(index, 1);
     
     try {
-      // Update in backend
-      await axios.put(`http://localhost:8000/api/leads/${id}`, {
-        ...lead,
+      // Only send the notes field to update, not the entire lead object
+      await axios.put(`http://localhost:8000/api/leads/${id}/`, {
         notes: updatedNotes
       });
       
@@ -234,7 +266,7 @@ const LeadDetailPage = () => {
         setLoading(true);
         
         axios
-          .delete(`http://localhost:8000/api/leads/${id}`)
+          .delete(`http://localhost:8000/api/leads/${id}/`)
           .then(() => {
             message.success('Lead deleted successfully!');
             navigate('/dashboard/leads');
@@ -242,6 +274,8 @@ const LeadDetailPage = () => {
           .catch((error) => {
             console.error('Error deleting lead:', error);
             message.error('Failed to delete lead!');
+          })
+          .finally(() => {
             setLoading(false);
           });
       }
@@ -299,63 +333,25 @@ const LeadDetailPage = () => {
     setSendingMessage(true);
     
     try {
-      // Determine which channel to use (Instagram, Facebook, SMS, etc.)
-      const channel = lead.source === 'Instagram' ? 'instagram' : 
-                     lead.source === 'Facebook' ? 'facebook' : 'sms';
+      // Send message to backend
+      await axios.put(`http://localhost:8000/api/Conversations/${conversationId}/`, {
+        message: messageText.trim()
+      });
       
-      // Create message object
-      const newMessage = {
-        leadId: id,
-        text: messageText.trim(),
-        timestamp: new Date().toISOString(),
-        sender: 'business',
-        channel
-      };
+      // Add to local state
+      setConversations([
+        ...conversations,
+        {
+          id: Date.now().toString(),
+          sender: 'You',
+          message: messageText,
+          timestamp: new Date().toISOString()
+        }
+      ]);
       
-      // Send to API
-      const response = await axios.post('http://localhost:8000/api/Messages', newMessage);
-      
-      // Check if Conversations exist for this lead
-      let conversationId;
-      
-      if (conversations.length === 0) {
-        // Create a new conversation if none exists
-        const conversationResponse = await axios.post('http://localhost:8000/api/Conversations', {
-          leadId: id,
-          messages: [response.data],
-          channel,
-          lastUpdated: new Date().toISOString()
-        });
-        
-        conversationId = conversationResponse.data.id;
-        setConversations([conversationResponse.data]);
-      } else {
-        // Update existing conversation
-        const conversation = conversations[0];
-        conversationId = conversation.id;
-        
-        const updatedMessages = [...(conversation.messages || []), response.data];
-        
-        await axios.put(`http://localhost:8000/api/Conversations/${conversationId}`, {
-          ...conversation,
-          messages: updatedMessages,
-          lastUpdated: new Date().toISOString()
-        });
-        
-        // Update conversations in state
-        setConversations([
-          {
-            ...conversation,
-            messages: updatedMessages,
-            lastUpdated: new Date().toISOString()
-          },
-          ...conversations.slice(1)
-        ]);
-      }
-      
-      // Clear message input
+      // Clear input
       setMessageText('');
-      message.success('Message sent successfully!');
+      
     } catch (error) {
       console.error('Error sending message:', error);
       message.error('Failed to send message.');
@@ -609,7 +605,14 @@ const LeadDetailPage = () => {
                       >
                         <div className="bg-gray-50 p-3 rounded-lg">
                           <div className="flex justify-between items-start">
-                            <Text>{note}</Text>
+                            <div>
+                              <Text>{note.content || note}</Text>
+                              {note.timestamp && (
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {new Date(note.timestamp).toLocaleString()}
+                                </div>
+                              )}
+                            </div>
                             <Button 
                               type="text" 
                               danger 
@@ -952,4 +955,4 @@ const LeadDetailPage = () => {
   );
 };
 
-export default LeadDetailPage; 
+export default LeadDetailPage;

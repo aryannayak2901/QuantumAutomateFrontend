@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Timeline, Card, Tag, Typography, Space, Button, Tooltip } from 'antd';
 import {
   PhoneOutlined,
@@ -11,6 +11,9 @@ import {
 } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import './ActivityTimeline.css';
 
 dayjs.extend(relativeTime);
 
@@ -55,6 +58,15 @@ const getActivityColor = (type) => {
 };
 
 const ActivityTimeline = ({ activities = [], loading = false, onLoadMore = () => {} }) => {
+  // Initialize AOS animation library
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      mirror: false,
+    });
+  }, []);
+  
   if (!Array.isArray(activities)) {
     return <div>No activities available.</div>;
   }
@@ -131,13 +143,15 @@ const ActivityTimeline = ({ activities = [], loading = false, onLoadMore = () =>
 
   return (
     <Card 
+      className="activity-timeline-card"
       title="Activity Timeline" 
       extra={
-        <Button type="link" onClick={onLoadMore}>
+        <Button type="link" onClick={onLoadMore} className="pulse-animation">
           Load More
         </Button>
       }
       loading={loading}
+      data-aos="fade-up"
     >
       <Timeline>
         {activities.map((activity) => (
@@ -164,4 +178,4 @@ const ActivityTimeline = ({ activities = [], loading = false, onLoadMore = () =>
   );
 };
 
-export default ActivityTimeline; 
+export default ActivityTimeline;

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Avatar, Badge, Typography, Button } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Menu, Dropdown, Badge, Typography, Button } from 'antd';
 import {
     DashboardOutlined,
     InstagramOutlined,
@@ -12,10 +12,35 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
+import NotificationDropdown from '../common/NotificationDropdown';
+import ProfileDropdown from '../common/ProfileDropdown';
+import { useAuth } from '../../context/AuthContext';
 
 const { Header, Sider, Content } = Layout;
 
 const DashboardLayout = ({ children }) => {
+    // Notification dropdown wrapper component
+    const NotificationDropdownWrapper = () => {
+        const [dropdownVisible, setDropdownVisible] = useState(false);
+        const { menu, unreadCount, setVisible } = NotificationDropdown();
+        
+        return (
+            <Dropdown 
+                overlay={menu} 
+                trigger={['click']} 
+                placement="bottomRight"
+                onVisibleChange={(visible) => {
+                    setDropdownVisible(visible);
+                    setVisible(visible);
+                }}
+                visible={dropdownVisible}
+            >
+                <Badge count={unreadCount} className="cursor-pointer">
+                    <Button type="text" icon={<BellOutlined style={{ fontSize: '20px' }} />} />
+                </Badge>
+            </Dropdown>
+        );
+    };
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -149,10 +174,11 @@ const DashboardLayout = ({ children }) => {
                         onClick={() => setCollapsed(!collapsed)}
                     />
                     <div className="flex items-center space-x-4">
-                        <Badge count={5} className="cursor-pointer">
-                            <BellOutlined style={{ fontSize: '20px' }} />
-                        </Badge>
-                        <Avatar icon={<UserOutlined />} />
+                        {/* Notification Dropdown */}
+                        <NotificationDropdownWrapper />
+                        
+                        {/* Profile Dropdown */}
+                        <ProfileDropdown />
                     </div>
                 </Header>
                 <Content className="p-6 bg-gray-50 min-h-screen">
@@ -175,4 +201,4 @@ const DashboardLayout = ({ children }) => {
     );
 };
 
-export default DashboardLayout; 
+export default DashboardLayout;

@@ -13,7 +13,8 @@ const publicEndpoints = [
     "users/login/",
     "users/facebook/login/",
     "users/resend-otp/",
-    "users/refresh-token/"
+    "users/refresh-token/",
+    "users/auth/forgot-password/"
 ];
 
 // List of endpoints that might need longer timeout

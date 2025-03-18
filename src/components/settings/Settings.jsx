@@ -157,6 +157,84 @@ const Settings = () => {
                 <TabPane
                     tab={
                         <span>
+                            <ApiOutlined />
+                            Exotel Integration
+                        </span>
+                    }
+                    key="exotel"
+                >
+                    <Card title="Exotel Phone Integration">
+                        <Form
+                            layout="vertical"
+                            onFinish={async (values) => {
+                                try {
+                                    setLoading(true);
+                                    const response = await axios.post('/api/users/exotel/enable/');
+                                    message.success('Exotel integration enabled successfully');
+                                    // Update the form with the new phone number
+                                    integrationForm.setFieldsValue({
+                                        exotel_phone_number: response.data.exotel_phone_number
+                                    });
+                                } catch (error) {
+                                    message.error(error.response?.data?.message || 'Failed to enable Exotel');
+                                } finally {
+                                    setLoading(false);
+                                }
+                            }}
+                        >
+                            <div className="mb-4">
+                                <p>Enable Exotel integration to get a dedicated Indian phone number for your business calls.</p>
+                                <p>Once enabled, you'll receive a phone number that will be used for all your outbound and inbound calls.</p>
+                            </div>
+                            
+                            <Form.Item
+                                name="exotel_phone_number"
+                                label="Your Exotel Phone Number"
+                            >
+                                <Input disabled />
+                            </Form.Item>
+
+                            <Form.Item>
+                                <Space>
+                                    <Button 
+                                        type="primary" 
+                                        htmlType="submit" 
+                                        loading={loading}
+                                        disabled={integrationForm.getFieldValue('exotel_phone_number')}
+                                    >
+                                        Enable Exotel
+                                    </Button>
+                                    {integrationForm.getFieldValue('exotel_phone_number') && (
+                                        <Button 
+                                            danger 
+                                            onClick={async () => {
+                                                try {
+                                                    setLoading(true);
+                                                    await axios.post('/api/users/exotel/disable/');
+                                                    message.success('Exotel integration disabled successfully');
+                                                    integrationForm.setFieldsValue({
+                                                        exotel_phone_number: null
+                                                    });
+                                                } catch (error) {
+                                                    message.error(error.response?.data?.message || 'Failed to disable Exotel');
+                                                } finally {
+                                                    setLoading(false);
+                                                }
+                                            }}
+                                            loading={loading}
+                                        >
+                                            Disable Exotel
+                                        </Button>
+                                    )}
+                                </Space>
+                            </Form.Item>
+                        </Form>
+                    </Card>
+                </TabPane>
+
+                <TabPane
+                    tab={
+                        <span>
                             <BellOutlined />
                             Notifications
                         </span>
@@ -346,4 +424,4 @@ const Settings = () => {
     );
 };
 
-export default Settings; 
+export default Settings;

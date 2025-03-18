@@ -39,9 +39,9 @@ import {
     TeamOutlined,
     InfoCircleOutlined
 } from '@ant-design/icons';
-import Papa from 'react-papaparse';
+import { usePapaParse } from 'react-papaparse';
 import dayjs from 'dayjs';
-import AICallingService from '../../services/aiCallingService';
+// import AICallingService from '../../services/aiCallingService';
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
@@ -60,6 +60,7 @@ const CallScheduler = () => {
     const [form] = Form.useForm();
     const [bulkForm] = Form.useForm();
     const [tabActive, setTabActive] = useState('1');
+    const { CSVReader } = usePapaParse();
 
     useEffect(() => {
         fetchData();
@@ -472,7 +473,7 @@ const CallScheduler = () => {
                         />
 
                         <div className="csv-upload-container" style={{ marginBottom: '20px' }}>
-                            <Papa.CSVReader
+                            <CSVReader
                                 onDrop={handleCSVUpload}
                                 onError={(err) => message.error(`Error reading CSV: ${err}`)}
                                 addRemoveButton
@@ -483,7 +484,7 @@ const CallScheduler = () => {
                                 }}
                             >
                                 <span>Drop CSV file here or click to upload.</span>
-                            </Papa.CSVReader>
+                            </CSVReader>
                         </div>
 
                         {bulkContacts.length > 0 && (
